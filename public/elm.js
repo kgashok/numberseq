@@ -5241,9 +5241,55 @@ var $elm$html$Html$Attributes$classList = function (classes) {
 				A2($elm$core$List$filter, $elm$core$Tuple$second, classes))));
 };
 var $elm$html$Html$div = _VirtualDom_node('div');
+var $elm$html$Html$a = _VirtualDom_node('a');
+var $author$project$Main$gitRepo = 'https://github.com/kgashok/numberseq';
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
+var $elm$html$Html$Attributes$rel = _VirtualDom_attribute('rel');
+var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Main$footer = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$id('footer')
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$a,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$href($author$project$Main$gitRepo + '/issues/new'),
+					$elm$html$Html$Attributes$target('_blank'),
+					$elm$html$Html$Attributes$rel('noopener noreferrer')
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Provide feedback?;')
+				])),
+			A2(
+			$elm$html$Html$a,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$href($author$project$Main$gitRepo + '/commits/glitch'),
+					$elm$html$Html$Attributes$target('_blank'),
+					$elm$html$Html$Attributes$rel('noopener noreferrer')
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(' last checkin')
+				]))
+		]));
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$h2 = _VirtualDom_node('h2');
-var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
+var $elm$html$Html$hr = _VirtualDom_node('hr');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -5265,8 +5311,6 @@ var $author$project$Main$index = function (t) {
 	return t.a;
 };
 var $elm$html$Html$span = _VirtualDom_node('span');
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $author$project$Main$value = function (t) {
 	return t.b;
@@ -5445,6 +5489,8 @@ var $author$project$Main$view = function (model) {
 								$elm$html$Html$text('What\'s next and Why?')
 							]))
 					])),
+				$author$project$Main$footer,
+				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
 				A2(
 				$elm$html$Html$button,
 				_List_fromArray(

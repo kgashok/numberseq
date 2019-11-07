@@ -2,8 +2,8 @@ module Main exposing (Msg(..), main, update, view)
 
 import Browser
 import Browser.Dom as Dom
-import Html exposing (Html, a, button, div, h1, h2, img, li, pre, span, text, ul)
-import Html.Attributes exposing (alt, classList, href, id, src)
+import Html exposing (Html, a, button, div, h1, h2, hr, img, li, pre, span, text, ul)
+import Html.Attributes exposing (alt, classList, href, id, rel, src, target)
 import Html.Events exposing (onClick)
 import Maybe exposing (map, withDefault)
 import String exposing (concat, fromChar, fromInt, toInt, toList)
@@ -119,6 +119,8 @@ view model =
     in
     div []
         [ div [] [ h1 [] [ text "What's next and Why?" ] ]
+        , footer
+        , hr [] []
         , button [ onClick Decrement ] [ text "Press to decrease" ]
 
         -- , div [] [ text (String.fromInt model.rangeMax ++ " " ++ String.fromInt model.limit) ]
@@ -129,6 +131,28 @@ view model =
         , div [ classList [ ( "numbers", True ) ] ] [ renderNumbers numberList model.limit ]
         , h2 [] [ text "The difference" ]
         , div [ classList [ ( "numbers", True ) ] ] [ renderDiff (calculateDiff numberList) ]
+        ]
+
+
+gitRepo =
+    "https://github.com/kgashok/numberseq"
+
+
+footer : Html Msg
+footer =
+    div [ id "footer" ]
+        [ a
+            [ href (gitRepo ++ "/issues/new")
+            , target "_blank"
+            , rel "noopener noreferrer"
+            ]
+            [ text "Provide feedback?;" ]
+        , a
+            [ href (gitRepo ++ "/commits/glitch")
+            , target "_blank"
+            , rel "noopener noreferrer"
+            ]
+            [ text " last checkin" ]
         ]
 
 

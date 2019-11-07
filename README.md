@@ -1,3 +1,9 @@
+## Elm Number Sequence Challenge
+
+This serves as a helper app for presenting the challenge.
+
+
+<!--
 Simple Elm Sample App
 =========================
 
@@ -36,3 +42,4 @@ elm diff       # elm-package diff
 ```
 
 \ ゜o゜)ノ
+-->

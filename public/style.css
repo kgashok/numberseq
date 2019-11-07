@@ -1,4 +1,4 @@
-body { background: darkgray;} 
+body { background: gray;}
 
 .numbers { 
   font-size: 2.0em; 
@@ -9,4 +9,21 @@ body { background: darkgray;}
 
 .numberRed {
   color: orange; 
+}
+
+h1 {
+  margin-bottom: 0px;
+}
+
+#footer {
+  color: blue;
+  margin: 10px auto 0;
+  font-size: 16px;
+  /*text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);*/
+  /*text-align: center;*/
+  /*line-height: 1em; */
+}
+
+#footer a {
+  color: inherit;
 }
