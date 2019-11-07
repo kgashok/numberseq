@@ -8,7 +8,6 @@ import Html.Events exposing (onClick)
 import Maybe exposing (map, withDefault)
 import String exposing (concat, fromChar, fromInt, toInt, toList)
 import Task
-import Time
 
 
 type alias Model =
@@ -104,7 +103,7 @@ update msg model =
             )
 
         NoOp ->
-            ( model, focusSearchBox )
+            ( model, Cmd.none )
 
 
 focusSearchBox : Cmd Msg
