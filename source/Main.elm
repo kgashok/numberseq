@@ -40,7 +40,7 @@ squareDigit =
         >> withDefault 0
 
 
-squareList: Int -> List ((Int, Int))
+squareList : Int -> List ( Int, Int )
 squareList rangeMax =
     let
         rangeList =
@@ -106,9 +106,7 @@ view model =
 
         -- div [] [ text (squareList 20)]
         , h2 [] [ text "The sequence" ]
-
-        -- , div [] [pre [classList [("numberRed", model.rangeMax > model.limit)]] [ text "ignore the colour changes..."]]
-        , div [ classList [ ( "numbers", True ) ] ] [ renderNumbers model.limit numberList ]
+        , div [ classList [ ( "numbers", True ) ] ] [ renderNumbers numberList model.limit ]
         , h2 [] [ text "The difference" ]
         , div [ classList [ ( "numbers", True ) ] ] [ renderDiff (calculateDiff numberList) ]
         ]
@@ -122,8 +120,8 @@ value t =
     Tuple.second t
 
 
-renderNumbers : Int -> List ( Int, Int ) -> Html msg
-renderNumbers limit lst =
+renderNumbers : List ( Int, Int ) -> Int -> Html msg
+renderNumbers lst limit =
     let
         displayattr index_ limit_ =
             classList [ ( "numberRed", index_ > limit_ ) ]
@@ -131,7 +129,6 @@ renderNumbers limit lst =
     lst
         |> List.map (\t -> span [ displayattr (index t) limit ] [ text (String.fromInt (value t) ++ ", ") ])
         |> ul []
-
 
 
 renderDiff : List ( Int, Int ) -> Html msg

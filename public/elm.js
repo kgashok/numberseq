@@ -5275,7 +5275,7 @@ var $author$project$Main$renderDiff = function (lst) {
 			lst));
 };
 var $author$project$Main$renderNumbers = F2(
-	function (limit, lst) {
+	function (lst, limit) {
 		var displayattr = F2(
 			function (index_, limit_) {
 				return $elm$html$Html$Attributes$classList(
@@ -5454,7 +5454,7 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A2($author$project$Main$renderNumbers, model.limit, numberList)
+						A2($author$project$Main$renderNumbers, numberList, model.limit)
 					])),
 				A2(
 				$elm$html$Html$h2,
