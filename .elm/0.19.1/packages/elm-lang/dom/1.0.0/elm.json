@@ -1,0 +1,1 @@
+{"type":"package","name":"elm-lang/dom","summary":"Low-level DOM manipulation, not for general use.","license":"BSD-3-Clause","version":"1.0.0","exposed-modules":["Dom.LowLevel"],"elm-version":"0.17.0 <= v < 0.18.0","dependencies":{"elm-lang/core":"4.0.0 <= v < 5.0.0"},"test-dependencies":{}}

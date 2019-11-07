@@ -1,11 +1,14 @@
 module Main exposing (Msg(..), main, update, view)
 
 import Browser
+import Browser.Dom as Dom
 import Html exposing (Html, a, button, div, h1, h2, img, li, pre, span, text, ul)
-import Html.Attributes exposing (alt, classList, href, src)
+import Html.Attributes exposing (alt, classList, href, id, src)
 import Html.Events exposing (onClick)
 import Maybe exposing (map, withDefault)
 import String exposing (concat, fromChar, fromInt, toInt, toList)
+import Task
+import Time
 
 
 type alias Model =
@@ -14,11 +17,13 @@ type alias Model =
     }
 
 
-init : Model
-init =
-    { rangeMax = 21
-    , limit = 6
-    }
+init : () -> ( Model, Cmd Msg )
+init _ =
+    ( { rangeMax = 21
+      , limit = 6
+      }
+    , focusSearchBox
+    )
 
 
 toSquareString : Maybe Int -> Maybe String
@@ -66,29 +71,45 @@ calculateDiff tlst =
 
 
 main =
-    Browser.sandbox { init = init, view = view, update = update }
+    Browser.element { init = init, view = view, update = update, subscriptions = subscriptions }
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
 
 
 type Msg
     = Increment
     | Decrement
+    | NoOp
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Increment ->
-            { model | rangeMax = model.rangeMax + 3 }
+            ( { model | rangeMax = model.rangeMax + 3 }, Cmd.none )
 
         Decrement ->
-            { model
+            ( { model
                 | rangeMax =
                     if model.rangeMax >= 3 then
                         model.rangeMax - 3
 
                     else
                         model.rangeMax
-            }
+              }
+            , Cmd.none
+            )
+
+        NoOp ->
+            ( model, focusSearchBox )
+
+
+focusSearchBox : Cmd Msg
+focusSearchBox =
+    Task.attempt (\_ -> NoOp) (Dom.focus "increment")
 
 
 view : Model -> Html Msg
@@ -102,7 +123,7 @@ view model =
         , button [ onClick Decrement ] [ text "Press to decrease" ]
 
         -- , div [] [ text (String.fromInt model.rangeMax ++ " " ++ String.fromInt model.limit) ]
-        , button [ onClick Increment ] [ text "Press to increase" ]
+        , button [ id "increment", onClick Increment ] [ text "Press to increase" ]
 
         -- div [] [ text (squareList 20)]
         , h2 [] [ text "The sequence" ]
