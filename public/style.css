@@ -1,0 +1,12 @@
+body { background: darkgray;} 
+
+.numbers { 
+  font-size: 2.0em; 
+  background-color: #265B5F;
+  color: palegoldenrod;
+  /*font-weight: bold; */
+}
+
+.numberRed {
+  color: orange; 
+}
