@@ -98,7 +98,7 @@ view model =
             squareList model.rangeMax
     in
     div []
-        [ div [] [ h1 [] [ text "rangeMaxer" ] ]
+        [ div [] [ h1 [] [ text "What's next and Why?" ] ]
         , button [ onClick Decrement ] [ text "Press to decrease" ]
 
         -- , div [] [ text (String.fromInt model.rangeMax ++ " " ++ String.fromInt model.limit) ]
