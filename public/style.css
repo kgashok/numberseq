@@ -10,6 +10,10 @@ body { background: darkgray;}
 .numberRed {
   color: orange; 
 }
+.interNumber {
+  /*display: none; */
+  color: gray;
+}
 
 h1 {
   margin-bottom: -13px;

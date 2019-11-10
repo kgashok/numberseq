@@ -13,13 +13,15 @@ import Task
 type alias Model =
     { rangeMax : Int -- to display an initial set of numbers in the sequence
     , limit : Int -- font colour beyond the six numbers in the sequence
+    , inter : Bool -- intermediary values to display as well?
     }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { rangeMax = 21
+    ( { rangeMax = 0
       , limit = 6
+      , inter = True
       }
     , focusSearchBox
     )
@@ -115,8 +117,15 @@ view : Model -> Html Msg
 view model =
     -- div [] [ text (squareList 20)]
     let
+        -- numberList =
+        --    squareList model.rangeMax
+        {--}
         numberList =
-            squareList model.rangeMax
+            List.range 1 model.rangeMax
+                |> List.map squareDigit
+                |> List.indexedMap Tuple.pair
+
+        --}
     in
     div []
         [ div [] [ h1 [] [ text "What's next and Why?" ] ]
@@ -129,6 +138,44 @@ view model =
         , h2 [] [ text "The difference" ]
         , div [ classList [ ( "numbers", True ) ] ] [ renderDiff (calculateDiff numberList) ]
         ]
+ 
+
+renderNumbers : List ( Int, Int ) -> Int -> Html msg
+renderNumbers lst limit =
+    let
+        numattr index_ limit_ =
+            ( "numberRed", index_ > limit_ )
+
+        interattr index_ =
+            ( "interNumber", modBy 3 (index_) /= 0 )
+    in
+    lst
+        |> List.map (\t -> ( t, String.fromInt (value t) ++ ", " ))
+        |> List.map
+            (\( t, intAsText ) ->
+                span
+                    [ classList
+                        [ numattr (index t) limit
+                        , interattr (index t)
+                        ]
+                    ]
+                    [ text intAsText ]
+            )
+        |> ul []
+
+
+renderDiff : List ( Int, Int ) -> Html msg
+renderDiff lst =
+    let
+        lastIndex =
+            List.length lst - 1
+
+        displayattr index_ =
+            classList [ ( "numberRed", index_ == lastIndex ) ]
+    in
+    lst
+        |> List.map (\t -> span [ displayattr (index t) ] [ text (String.fromInt (value t) ++ ", ") ])
+        |> ul []
 
 
 gitRepo =
@@ -159,33 +206,6 @@ index t =
 
 value t =
     Tuple.second t
-
-
-renderNumbers : List ( Int, Int ) -> Int -> Html msg
-renderNumbers lst limit =
-    let
-        numattr index_ limit_ =
-            classList [ ( "numberRed", index_ > limit_ ) ]
-    in
-    lst
-        |> List.map (\t -> ( t, String.fromInt (value t) ++ ", " ))
-        |> List.map
-            (\( t, intAsText ) -> span [ numattr (index t) limit ] [ text intAsText ])
-        |> ul []
-
-
-renderDiff : List ( Int, Int ) -> Html msg
-renderDiff lst =
-    let
-        lastIndex =
-            List.length lst - 1
-
-        displayattr index_ =
-            classList [ ( "numberRed", index_ == lastIndex ) ]
-    in
-    lst
-        |> List.map (\t -> span [ displayattr (index t) ] [ text (String.fromInt (value t) ++ ", ") ])
-        |> ul []
 
 
 

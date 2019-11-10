@@ -5108,7 +5108,7 @@ var $author$project$Main$focusSearchBox = A2(
 	$elm$browser$Browser$Dom$focus('increment'));
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{limit: 6, rangeMax: 21},
+		{inter: true, limit: 6, rangeMax: 0},
 		$author$project$Main$focusSearchBox);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5348,18 +5348,21 @@ var $author$project$Main$renderDiff = function (lst) {
 			},
 			lst));
 };
+var $elm$core$Basics$modBy = _Basics_modBy;
+var $elm$core$Basics$neq = _Utils_notEqual;
 var $author$project$Main$renderNumbers = F2(
 	function (lst, limit) {
 		var numattr = F2(
 			function (index_, limit_) {
-				return $elm$html$Html$Attributes$classList(
-					_List_fromArray(
-						[
-							_Utils_Tuple2(
-							'numberRed',
-							_Utils_cmp(index_, limit_) > 0)
-						]));
+				return _Utils_Tuple2(
+					'numberRed',
+					_Utils_cmp(index_, limit_) > 0);
 			});
+		var interattr = function (index_) {
+			return _Utils_Tuple2(
+				'interNumber',
+				!(!A2($elm$core$Basics$modBy, 3, index_)));
+		};
 		return A2(
 			$elm$html$Html$ul,
 			_List_Nil,
@@ -5372,10 +5375,16 @@ var $author$project$Main$renderNumbers = F2(
 						$elm$html$Html$span,
 						_List_fromArray(
 							[
-								A2(
-								numattr,
-								$author$project$Main$index(t),
-								limit)
+								$elm$html$Html$Attributes$classList(
+								_List_fromArray(
+									[
+										A2(
+										numattr,
+										$author$project$Main$index(t),
+										limit),
+										interattr(
+										$author$project$Main$index(t))
+									]))
 							]),
 						_List_fromArray(
 							[
@@ -5392,7 +5401,6 @@ var $author$project$Main$renderNumbers = F2(
 					},
 					lst)));
 	});
-var $elm$core$Basics$modBy = _Basics_modBy;
 var $elm$core$Basics$composeR = F3(
 	function (f, g, x) {
 		return g(
@@ -5465,20 +5473,14 @@ var $author$project$Main$squareDigit = A2(
 					$elm$core$Basics$composeR,
 					$elm$core$String$toInt,
 					$elm$core$Maybe$withDefault(0))))));
-var $author$project$Main$squareList = function (rangeMax) {
-	var rangeList = A2(
-		$elm$core$List$filter,
-		function (x) {
-			return !A2($elm$core$Basics$modBy, 3, x - 1);
-		},
-		A2($elm$core$List$range, 1, rangeMax));
-	return A2(
+var $author$project$Main$view = function (model) {
+	var numberList = A2(
 		$elm$core$List$indexedMap,
 		$elm$core$Tuple$pair,
-		A2($elm$core$List$map, $author$project$Main$squareDigit, rangeList));
-};
-var $author$project$Main$view = function (model) {
-	var numberList = $author$project$Main$squareList(model.rangeMax);
+		A2(
+			$elm$core$List$map,
+			$author$project$Main$squareDigit,
+			A2($elm$core$List$range, 1, model.rangeMax)));
 	return A2(
 		$elm$html$Html$div,
 		_List_Nil,
