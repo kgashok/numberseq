@@ -5108,7 +5108,7 @@ var $author$project$Main$focusSearchBox = A2(
 	$elm$browser$Browser$Dom$focus('increment'));
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{inter: false, limit: 18, rangeMax: 21},
+		{inter: false, limit: 18, rangeMax: 21, spoilerMode: true},
 		$author$project$Main$focusSearchBox);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5127,7 +5127,10 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{rangeMax: model.rangeMax + 3}),
+						{
+							rangeMax: model.rangeMax + 3,
+							spoilerMode: (model.spoilerMode && (model.rangeMax > 60)) ? false : model.spoilerMode
+						}),
 					$elm$core$Platform$Cmd$none);
 			case 'Decrement':
 				return _Utils_Tuple2(
@@ -5252,6 +5255,15 @@ var $elm$html$Html$Attributes$classList = function (classes) {
 				$elm$core$Tuple$first,
 				A2($elm$core$List$filter, $elm$core$Tuple$second, classes))));
 };
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $elm$html$Html$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$bool(bool));
+	});
+var $elm$html$Html$Attributes$disabled = $elm$html$Html$Attributes$boolProperty('disabled');
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $author$project$Main$gitRepo = 'https://github.com/kgashok/numberseq';
@@ -5525,16 +5537,6 @@ var $author$project$Main$view = function (model) {
 							]))
 					])),
 				$author$project$Main$footer,
-				A2(
-				$elm$html$Html$button,
-				_List_fromArray(
-					[
-						$elm$html$Html$Events$onClick($author$project$Main$ToggleInter)
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text('SPOILER ALERT!')
-					])),
 				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
 				A2(
 				$elm$html$Html$button,
@@ -5577,6 +5579,17 @@ var $author$project$Main$view = function (model) {
 				_List_fromArray(
 					[
 						A3($author$project$Main$renderNumbers, numberList, model.limit, model.inter)
+					])),
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick($author$project$Main$ToggleInter),
+						$elm$html$Html$Attributes$disabled(model.spoilerMode)
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('SPOILER ALERT!')
 					])),
 				A2(
 				$elm$html$Html$h2,

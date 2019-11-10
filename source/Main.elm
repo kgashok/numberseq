@@ -3,7 +3,7 @@ module Main exposing (Msg(..), main, update, view)
 import Browser
 import Browser.Dom as Dom
 import Html exposing (Html, a, button, div, h1, h2, hr, img, li, pre, span, text, ul)
-import Html.Attributes exposing (alt, classList, href, id, rel, src, target)
+import Html.Attributes exposing (alt, classList, href, id, rel, src, target, disabled)
 import Html.Events exposing (onClick)
 import Maybe exposing (map, withDefault)
 import String exposing (concat, fromChar, fromInt, toInt, toList)
@@ -14,6 +14,7 @@ type alias Model =
     { rangeMax : Int -- to display an initial set of numbers in the sequence
     , limit : Int -- font colour beyond the six numbers in the sequence
     , inter : Bool -- intermediary values to display as well?
+    , spoilerMode : Bool 
     }
 
 
@@ -22,6 +23,7 @@ init _ =
     ( { rangeMax = 21
       , limit = 18
       , inter = False
+      , spoilerMode = True
       }
     , focusSearchBox
     )
@@ -91,7 +93,14 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Increment ->
-            ( { model | rangeMax = model.rangeMax + 3 }, Cmd.none )
+            ( { model | rangeMax = model.rangeMax + 3
+                      , spoilerMode = 
+                        if model.spoilerMode && model.rangeMax > 60 
+                        then False 
+                        else model.spoilerMode
+              }
+            , Cmd.none 
+            )
 
         Decrement ->
             ( { model
@@ -138,12 +147,12 @@ view model =
     div []
         [ div [] [ h1 [] [ text "What's next and Why?" ] ]
         , footer
-        , button [ onClick ToggleInter ] [ text "SPOILER ALERT!" ]
         , hr [] []
         , button [ onClick Decrement ] [ text "Press to decrease" ]
         , button [ id "increment", onClick Increment ] [ text "Press to increase" ]
         , h2 [] [ text "The sequence" ]
         , div [ classList [ ( "numbers", True ) ] ] [ renderNumbers numberList model.limit model.inter ]
+        , button [ onClick ToggleInter, disabled model.spoilerMode ] [ text "SPOILER ALERT!" ]
         , h2 [] [ text "The difference" ]
         , div [ classList [ ( "numbers", True ) ] ] [ renderDiff (calculateDiff numberList) model.inter ]
         ]
