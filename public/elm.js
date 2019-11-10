@@ -5322,46 +5322,53 @@ var $elm$html$Html$Events$onClick = function (msg) {
 var $author$project$Main$index = function (t) {
 	return t.a;
 };
+var $elm$core$Basics$modBy = _Basics_modBy;
+var $elm$core$Basics$neq = _Utils_notEqual;
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $author$project$Main$value = function (t) {
 	return t.b;
 };
-var $author$project$Main$renderDiff = function (lst) {
-	var lastIndex = $elm$core$List$length(lst) - 1;
-	var displayattr = function (index_) {
-		return $elm$html$Html$Attributes$classList(
-			_List_fromArray(
-				[
-					_Utils_Tuple2(
-					'numberRed',
-					_Utils_eq(index_, lastIndex))
-				]));
-	};
-	return A2(
-		$elm$html$Html$ul,
-		_List_Nil,
-		A2(
-			$elm$core$List$map,
-			function (t) {
-				return A2(
-					$elm$html$Html$span,
-					_List_fromArray(
-						[
-							displayattr(
-							$author$project$Main$index(t))
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(
-							$elm$core$String$fromInt(
-								$author$project$Main$value(t)) + ', ')
-						]));
-			},
-			lst));
-};
-var $elm$core$Basics$modBy = _Basics_modBy;
-var $elm$core$Basics$neq = _Utils_notEqual;
+var $author$project$Main$renderDiff = F2(
+	function (lst, inter) {
+		var lastIndex = inter ? ($elm$core$List$length(lst) - 3) : ($elm$core$List$length(lst) - 1);
+		var displayattr = function (index_) {
+			return _Utils_Tuple2(
+				'numberRed',
+				_Utils_eq(index_, lastIndex));
+		};
+		return A2(
+			$elm$html$Html$ul,
+			_List_Nil,
+			A2(
+				$elm$core$List$map,
+				function (t) {
+					return A2(
+						$elm$html$Html$span,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$classList(
+								_List_fromArray(
+									[
+										displayattr(
+										$author$project$Main$index(t)),
+										_Utils_Tuple2(
+										'hideNumber',
+										(!inter) && (!(!A2(
+											$elm$core$Basics$modBy,
+											3,
+											$author$project$Main$index(t)))))
+									]))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(
+								$elm$core$String$fromInt(
+									$author$project$Main$value(t)) + ', ')
+							]));
+				},
+				lst));
+	});
 var $author$project$Main$renderNumbers = F3(
 	function (lst, limit, inter) {
 		var numattr = F2(
@@ -5590,8 +5597,10 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$author$project$Main$renderDiff(
-						$author$project$Main$calculateDiff(numberList))
+						A2(
+						$author$project$Main$renderDiff,
+						$author$project$Main$calculateDiff(numberList),
+						model.inter)
 					]))
 			]));
 };

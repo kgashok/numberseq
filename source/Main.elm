@@ -145,7 +145,7 @@ view model =
         , h2 [] [ text "The sequence" ]
         , div [ classList [ ( "numbers", True ) ] ] [ renderNumbers numberList model.limit model.inter ]
         , h2 [] [ text "The difference" ]
-        , div [ classList [ ( "numbers", True ) ] ] [ renderDiff (calculateDiff numberList) ]
+        , div [ classList [ ( "numbers", True ) ] ] [ renderDiff (calculateDiff numberList) model.inter ]
         ]
 
 
@@ -174,17 +174,30 @@ renderNumbers lst limit inter =
         |> ul []
 
 
-renderDiff : List ( Int, Int ) -> Html msg
-renderDiff lst =
+renderDiff : List ( Int, Int ) -> Bool -> Html msg
+renderDiff lst inter =
     let
         lastIndex =
-            List.length lst - 1
+            if inter then
+                List.length lst - 3
+
+            else
+                List.length lst - 1
 
         displayattr index_ =
-            classList [ ( "numberRed", index_ == lastIndex ) ]
+            ( "numberRed", index_ == lastIndex )
     in
     lst
-        |> List.map (\t -> span [ displayattr (index t) ] [ text (String.fromInt (value t) ++ ", ") ])
+        |> List.map
+            (\t ->
+                span
+                    [ classList
+                        [ displayattr (index t)
+                        , ( "hideNumber", not inter && modBy 3 (index t) /= 0 )
+                        ]
+                    ]
+                    [ text (String.fromInt (value t) ++ ", ") ]
+            )
         |> ul []
 
 
