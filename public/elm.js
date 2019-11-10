@@ -5350,7 +5350,7 @@ var $author$project$Main$renderDiff = function (lst) {
 };
 var $author$project$Main$renderNumbers = F2(
 	function (lst, limit) {
-		var displayattr = F2(
+		var numattr = F2(
 			function (index_, limit_) {
 				return $elm$html$Html$Attributes$classList(
 					_List_fromArray(
@@ -5365,24 +5365,32 @@ var $author$project$Main$renderNumbers = F2(
 			_List_Nil,
 			A2(
 				$elm$core$List$map,
-				function (t) {
+				function (_v0) {
+					var t = _v0.a;
+					var intAsText = _v0.b;
 					return A2(
 						$elm$html$Html$span,
 						_List_fromArray(
 							[
 								A2(
-								displayattr,
+								numattr,
 								$author$project$Main$index(t),
 								limit)
 							]),
 						_List_fromArray(
 							[
-								$elm$html$Html$text(
-								$elm$core$String$fromInt(
-									$author$project$Main$value(t)) + ', ')
+								$elm$html$Html$text(intAsText)
 							]));
 				},
-				lst));
+				A2(
+					$elm$core$List$map,
+					function (t) {
+						return _Utils_Tuple2(
+							t,
+							$elm$core$String$fromInt(
+								$author$project$Main$value(t)) + ', ');
+					},
+					lst)));
 	});
 var $elm$core$Basics$modBy = _Basics_modBy;
 var $elm$core$Basics$composeR = F3(

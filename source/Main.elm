@@ -113,6 +113,7 @@ focusSearchBox =
 
 view : Model -> Html Msg
 view model =
+    -- div [] [ text (squareList 20)]
     let
         numberList =
             squareList model.rangeMax
@@ -122,11 +123,7 @@ view model =
         , footer
         , hr [] []
         , button [ onClick Decrement ] [ text "Press to decrease" ]
-
-        -- , div [] [ text (String.fromInt model.rangeMax ++ " " ++ String.fromInt model.limit) ]
         , button [ id "increment", onClick Increment ] [ text "Press to increase" ]
-
-        -- div [] [ text (squareList 20)]
         , h2 [] [ text "The sequence" ]
         , div [ classList [ ( "numbers", True ) ] ] [ renderNumbers numberList model.limit ]
         , h2 [] [ text "The difference" ]
@@ -167,11 +164,13 @@ value t =
 renderNumbers : List ( Int, Int ) -> Int -> Html msg
 renderNumbers lst limit =
     let
-        displayattr index_ limit_ =
+        numattr index_ limit_ =
             classList [ ( "numberRed", index_ > limit_ ) ]
     in
     lst
-        |> List.map (\t -> span [ displayattr (index t) limit ] [ text (String.fromInt (value t) ++ ", ") ])
+        |> List.map (\t -> ( t, String.fromInt (value t) ++ ", " ))
+        |> List.map
+            (\( t, intAsText ) -> span [ numattr (index t) limit ] [ text intAsText ])
         |> ul []
 
 
@@ -241,3 +240,29 @@ diffList2 tlst =
             List.map2 Tuple.pair lst (withDefault [] (List.tail lst))
     in
     List.map (\( x, y ) -> y - x) ziplist
+
+
+strong : Int -> String
+strong n =
+    let
+        digitList number =
+            number
+                |> String.fromInt
+                |> String.toList
+                |> List.filterMap (String.fromChar >> String.toInt)
+
+        factorial f =
+            if f <= 1 then
+                1
+
+            else
+                f * factorial (f - 1)
+
+        factsum lst =
+            List.map factorial lst |> List.sum
+    in
+    if n == factsum (digitList n) then
+        "STRONG!!!!"
+
+    else
+        "Not Strong !!"
