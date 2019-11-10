@@ -182,7 +182,7 @@ view model =
         , footer
         , hr [] []
         , button [ onClick Decrement ] [ text "Press to decrease" ]
-        , pre [] [ text <| String.fromInt model.rangeMax ]
+        -- , pre [] [ text <| String.fromInt model.rangeMax ]
         , button [ id "increment", onClick Increment ] [ text "Press to increase" ]
         , h2 [] [ text "The sequence" ]
         , div [ classList [ ( "numbers", True ) ] ]

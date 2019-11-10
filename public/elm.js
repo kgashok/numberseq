@@ -5499,7 +5499,6 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $elm$html$Html$pre = _VirtualDom_node('pre');
 var $author$project$Main$index = function (t) {
 	return t.a;
 };
@@ -5710,14 +5709,6 @@ var $author$project$Main$view = function (model) {
 				_List_fromArray(
 					[
 						$elm$html$Html$text('Press to decrease')
-					])),
-				A2(
-				$elm$html$Html$pre,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text(
-						$elm$core$String$fromInt(model.rangeMax))
 					])),
 				A2(
 				$elm$html$Html$button,
