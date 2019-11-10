@@ -1,0 +1,41 @@
+groupsOf 3 lst |> List.map List.sum
+groupsOf 3 lst |> List.map List.sum
+groupsOf 3 lst
+lst = [3, 5, 7, 9, 11, 13, 15, 17]
+lst
+groupsOf 3 lst
+groupsOf 3 (List.range 1 10)
+import List.Extra exposing (..)
+groupsOf 3 (List.range 1 10)
+List.Extra.greedyGroupsOf 3 lst
+List.Extra.greedyGroupsOf 3 lst |> List.map List.sum
+lst = [3, 5, 7, 9, 11]
+List.Extra.greedyGroupsOf 3 lst |> List.map List.sum
+List.Extra.greedyGroupsOf 3 lst
+lst
+List.Extra.greedyGroupsOf 3 lst |> List.map List.sum
+List.Extra.greedyGroupsOf 3 lst |> List.map List.Sum
+List.Extra.greedyGroupsOf 3 lst | List.map List.Sum 
+List.Extra.greedyGroupsOf 3 lst
+lst = [3, 5, 7, 9, 11, 13, 15, 17]
+List.Extra.greedyGroupsOf 3 lst
+lst = [3, 5, 7, 9, 11, 13, 15, 17]
+lst = 3, 5, 7, 9, 11, 13, 15, 17,
+List.Extra.greedyGroupsOf 3 lst
+List.Extra.greedyGroupsOf 3 (List.range 1 10)
+List.greedyGroupsOf 3 (List.range 1 10)
+greedyGroupsOf 3 (List.range 1 10)
+lst
+lst |> List.Extra.groupsOf 3 
+lst |> List.Extra.groupsOf 2 
+lst ++ [6]
+lst
+lst |> List.Extra.groupsOf 2 
+lst |> List.Extra.groupsOf 2 
+lst |> List.Extra.groupsOf 3 
+lst |> List.Extra.groupOf 3 
+lst |> List.Extra.groupBy 3 
+lst |> List.Extra groupBy 3 
+lst | List.Extra groupBy 3 
+lst = [1, 2, 3, 4, 5]
+import List.Extra

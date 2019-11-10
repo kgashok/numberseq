@@ -16,6 +16,7 @@ type alias Model =
     , limit : Int -- font colour beyond the six numbers in the sequence
     , inter : Bool -- intermediary values to display as well?
     , spoilerMode : Bool
+    , spoilerVal : Int -- the spoiler gets enabled when rangeMax > spoilerVal
     , modeText : String
     }
 
@@ -26,6 +27,7 @@ init _ =
       , limit = 18
       , inter = False
       , spoilerMode = True
+      , spoilerVal = 60
       , modeText = "SPOILER ALERT!"
       }
     , focusSearchBox
@@ -71,13 +73,18 @@ calculateDiff tlst inter =
 
         ziplist =
             List.map2 Tuple.pair lst (withDefault [] (List.tail lst))
-              |> List.map (\( x, y ) -> y - x)
+                |> List.map (\( x, y ) -> y - x)
 
-        lst3 = ziplist |> List.Extra.groupsOf 3 |> List.map List.sum
-                    
+        lst3 =
+            ziplist |> List.Extra.groupsOf 3 |> List.map List.sum
     in
-    (if inter then ziplist else lst3) 
-      |> List.indexedMap Tuple.pair
+    (if inter then
+        ziplist
+
+     else
+        lst3
+    )
+        |> List.indexedMap Tuple.pair
 
 
 main =
@@ -103,7 +110,7 @@ update msg model =
             ( { model
                 | rangeMax = model.rangeMax + 3
                 , spoilerMode =
-                    if model.spoilerMode && model.rangeMax > 30 then
+                    if model.spoilerMode && model.rangeMax > model.spoilerVal then
                         False
 
                     else
@@ -132,17 +139,21 @@ update msg model =
             else
                 ( { model | rangeMax = 21, inter = not model.inter }, focusSearchBox )
             --}
-            let 
-              mtext = if model.modeText == "hide hints"
-                      then "show hints" else "hide hints"
+            let
+                mtext =
+                    if model.modeText == "hide hints" then
+                        "show hints"
+
+                    else
+                        "hide hints"
             in
-            ( { model | inter = not model.inter
-                      , modeText = mtext
+            ( { model
+                | inter = not model.inter
+                , modeText = mtext
               }
-              , 
-              focusSearchBox
+            , focusSearchBox
             )
-              
+
         NoOp ->
             ( model, Cmd.none )
 
@@ -174,10 +185,13 @@ view model =
         , pre [] [ text <| String.fromInt model.rangeMax ]
         , button [ id "increment", onClick Increment ] [ text "Press to increase" ]
         , h2 [] [ text "The sequence" ]
-        , div [ classList [ ( "numbers", True ) ] ] [ renderNumbers numberList model.limit model.inter ]
-        , button [ onClick ToggleInter, disabled model.spoilerMode ] [ text model.modeText ]
+        , div [ classList [ ( "numbers", True ) ] ]
+            [ renderNumbers numberList model.limit model.inter ]
+        , button [ onClick ToggleInter, disabled model.spoilerMode ]
+            [ text model.modeText ]
         , h2 [] [ text "The difference" ]
-        , div [ classList [ ( "numbers", True ) ] ] [ renderDiff (calculateDiff numberList model.inter) model.inter ]
+        , div [ classList [ ( "numbers", True ) ] ]
+            [ renderDiff (calculateDiff numberList model.inter) model.inter ]
         ]
 
 
@@ -225,6 +239,7 @@ renderDiff lst inter =
                 span
                     [ classList
                         [ displayattr (index t)
+
                         -- , ( "hideNumber", not inter && modBy 3 (index t) /= 0 )
                         ]
                     ]

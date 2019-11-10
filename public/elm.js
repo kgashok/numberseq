@@ -5108,7 +5108,7 @@ var $author$project$Main$focusSearchBox = A2(
 	$elm$browser$Browser$Dom$focus('increment'));
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{inter: false, limit: 18, modeText: 'SPOILER ALERT!', rangeMax: 21, spoilerMode: true},
+		{inter: false, limit: 18, modeText: 'SPOILER ALERT!', rangeMax: 21, spoilerMode: true, spoilerVal: 60},
 		$author$project$Main$focusSearchBox);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5129,7 +5129,7 @@ var $author$project$Main$update = F2(
 						model,
 						{
 							rangeMax: model.rangeMax + 3,
-							spoilerMode: (model.spoilerMode && (model.rangeMax > 30)) ? false : model.spoilerMode
+							spoilerMode: (model.spoilerMode && (_Utils_cmp(model.rangeMax, model.spoilerVal) > 0)) ? false : model.spoilerMode
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 'Decrement':
