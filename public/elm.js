@@ -5533,7 +5533,7 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text('more Hints')
+						$elm$html$Html$text('SPOILER ALERT!')
 					])),
 				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
 				A2(

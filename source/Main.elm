@@ -138,7 +138,7 @@ view model =
     div []
         [ div [] [ h1 [] [ text "What's next and Why?" ] ]
         , footer
-        , button [ onClick ToggleInter ] [ text "more Hints" ]
+        , button [ onClick ToggleInter ] [ text "SPOILER ALERT!" ]
         , hr [] []
         , button [ onClick Decrement ] [ text "Press to decrease" ]
         , button [ id "increment", onClick Increment ] [ text "Press to increase" ]
