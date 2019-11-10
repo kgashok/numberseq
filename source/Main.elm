@@ -19,9 +19,9 @@ type alias Model =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { rangeMax = 0
-      , limit = 6
-      , inter = True
+    ( { rangeMax = 21
+      , limit = 18
+      , inter = False
       }
     , focusSearchBox
     )
@@ -83,6 +83,7 @@ subscriptions model =
 type Msg
     = Increment
     | Decrement
+    | ToggleInter
     | NoOp
 
 
@@ -103,6 +104,13 @@ update msg model =
               }
             , Cmd.none
             )
+
+        ToggleInter ->
+            if model.rangeMax == 0 then
+                ( { model | rangeMax = 21, inter = not model.inter }, focusSearchBox )
+
+            else
+                ( { model | rangeMax = 21, inter = not model.inter }, focusSearchBox )
 
         NoOp ->
             ( model, Cmd.none )
@@ -130,24 +138,25 @@ view model =
     div []
         [ div [] [ h1 [] [ text "What's next and Why?" ] ]
         , footer
+        , button [ onClick ToggleInter ] [ text "more Hints" ]
         , hr [] []
         , button [ onClick Decrement ] [ text "Press to decrease" ]
         , button [ id "increment", onClick Increment ] [ text "Press to increase" ]
         , h2 [] [ text "The sequence" ]
-        , div [ classList [ ( "numbers", True ) ] ] [ renderNumbers numberList model.limit ]
+        , div [ classList [ ( "numbers", True ) ] ] [ renderNumbers numberList model.limit model.inter ]
         , h2 [] [ text "The difference" ]
         , div [ classList [ ( "numbers", True ) ] ] [ renderDiff (calculateDiff numberList) ]
         ]
- 
 
-renderNumbers : List ( Int, Int ) -> Int -> Html msg
-renderNumbers lst limit =
+
+renderNumbers : List ( Int, Int ) -> Int -> Bool -> Html msg
+renderNumbers lst limit inter =
     let
         numattr index_ limit_ =
             ( "numberRed", index_ > limit_ )
 
         interattr index_ =
-            ( "interNumber", modBy 3 (index_) /= 0 )
+            ( "interNumber", modBy 3 index_ /= 0 )
     in
     lst
         |> List.map (\t -> ( t, String.fromInt (value t) ++ ", " ))
@@ -157,6 +166,7 @@ renderNumbers lst limit =
                     [ classList
                         [ numattr (index t) limit
                         , interattr (index t)
+                        , ( "hideNumber", not inter && modBy 3 (index t) /= 0 )
                         ]
                     ]
                     [ text intAsText ]

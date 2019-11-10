@@ -15,6 +15,10 @@ body { background: darkgray;}
   color: gray;
 }
 
+.hideNumber {
+  display: none;
+}
+
 h1 {
   margin-bottom: -13px;
 }

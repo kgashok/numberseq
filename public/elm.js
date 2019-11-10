@@ -5108,7 +5108,7 @@ var $author$project$Main$focusSearchBox = A2(
 	$elm$browser$Browser$Dom$focus('increment'));
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{inter: true, limit: 6, rangeMax: 0},
+		{inter: false, limit: 18, rangeMax: 21},
 		$author$project$Main$focusSearchBox);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5119,6 +5119,7 @@ var $author$project$Main$subscriptions = function (model) {
 var $elm$core$Basics$ge = _Utils_ge;
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $elm$core$Basics$not = _Basics_not;
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -5136,12 +5137,23 @@ var $author$project$Main$update = F2(
 							rangeMax: (model.rangeMax >= 3) ? (model.rangeMax - 3) : model.rangeMax
 						}),
 					$elm$core$Platform$Cmd$none);
+			case 'ToggleInter':
+				return (!model.rangeMax) ? _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{inter: !model.inter, rangeMax: 21}),
+					$author$project$Main$focusSearchBox) : _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{inter: !model.inter, rangeMax: 21}),
+					$author$project$Main$focusSearchBox);
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
 var $author$project$Main$Decrement = {$: 'Decrement'};
 var $author$project$Main$Increment = {$: 'Increment'};
+var $author$project$Main$ToggleInter = {$: 'ToggleInter'};
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$core$Tuple$pair = F2(
 	function (a, b) {
@@ -5350,8 +5362,8 @@ var $author$project$Main$renderDiff = function (lst) {
 };
 var $elm$core$Basics$modBy = _Basics_modBy;
 var $elm$core$Basics$neq = _Utils_notEqual;
-var $author$project$Main$renderNumbers = F2(
-	function (lst, limit) {
+var $author$project$Main$renderNumbers = F3(
+	function (lst, limit, inter) {
 		var numattr = F2(
 			function (index_, limit_) {
 				return _Utils_Tuple2(
@@ -5383,7 +5395,13 @@ var $author$project$Main$renderNumbers = F2(
 										$author$project$Main$index(t),
 										limit),
 										interattr(
-										$author$project$Main$index(t))
+										$author$project$Main$index(t)),
+										_Utils_Tuple2(
+										'hideNumber',
+										(!inter) && (!(!A2(
+											$elm$core$Basics$modBy,
+											3,
+											$author$project$Main$index(t)))))
 									]))
 							]),
 						_List_fromArray(
@@ -5500,6 +5518,16 @@ var $author$project$Main$view = function (model) {
 							]))
 					])),
 				$author$project$Main$footer,
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick($author$project$Main$ToggleInter)
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('more Hints')
+					])),
 				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
 				A2(
 				$elm$html$Html$button,
@@ -5541,7 +5569,7 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A2($author$project$Main$renderNumbers, numberList, model.limit)
+						A3($author$project$Main$renderNumbers, numberList, model.limit, model.inter)
 					])),
 				A2(
 				$elm$html$Html$h2,
