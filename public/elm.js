@@ -5108,7 +5108,7 @@ var $author$project$Main$focusSearchBox = A2(
 	$elm$browser$Browser$Dom$focus('increment'));
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{inter: false, limit: 18, rangeMax: 21, spoilerMode: true},
+		{inter: false, limit: 18, modeText: 'SPOILER ALERT!', rangeMax: 21, spoilerMode: true},
 		$author$project$Main$focusSearchBox);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5129,7 +5129,7 @@ var $author$project$Main$update = F2(
 						model,
 						{
 							rangeMax: model.rangeMax + 3,
-							spoilerMode: (model.spoilerMode && (model.rangeMax > 60)) ? false : model.spoilerMode
+							spoilerMode: (model.spoilerMode && (model.rangeMax > 30)) ? false : model.spoilerMode
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 'Decrement':
@@ -5141,14 +5141,11 @@ var $author$project$Main$update = F2(
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 'ToggleInter':
-				return (!model.rangeMax) ? _Utils_Tuple2(
+				var mtext = (model.modeText === 'hide hints') ? 'show hints' : 'hide hints';
+				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{inter: !model.inter, rangeMax: 21}),
-					$author$project$Main$focusSearchBox) : _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{inter: !model.inter, rangeMax: 21}),
+						{inter: !model.inter, modeText: mtext}),
 					$author$project$Main$focusSearchBox);
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -5158,10 +5155,177 @@ var $author$project$Main$Decrement = {$: 'Decrement'};
 var $author$project$Main$Increment = {$: 'Increment'};
 var $author$project$Main$ToggleInter = {$: 'ToggleInter'};
 var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$core$List$drop = F2(
+	function (n, list) {
+		drop:
+		while (true) {
+			if (n <= 0) {
+				return list;
+			} else {
+				if (!list.b) {
+					return list;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs;
+					n = $temp$n;
+					list = $temp$list;
+					continue drop;
+				}
+			}
+		}
+	});
+var $elm$core$List$takeReverse = F3(
+	function (n, list, kept) {
+		takeReverse:
+		while (true) {
+			if (n <= 0) {
+				return kept;
+			} else {
+				if (!list.b) {
+					return kept;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs,
+						$temp$kept = A2($elm$core$List$cons, x, kept);
+					n = $temp$n;
+					list = $temp$list;
+					kept = $temp$kept;
+					continue takeReverse;
+				}
+			}
+		}
+	});
+var $elm$core$List$takeTailRec = F2(
+	function (n, list) {
+		return $elm$core$List$reverse(
+			A3($elm$core$List$takeReverse, n, list, _List_Nil));
+	});
+var $elm$core$List$takeFast = F3(
+	function (ctr, n, list) {
+		if (n <= 0) {
+			return _List_Nil;
+		} else {
+			var _v0 = _Utils_Tuple2(n, list);
+			_v0$1:
+			while (true) {
+				_v0$5:
+				while (true) {
+					if (!_v0.b.b) {
+						return list;
+					} else {
+						if (_v0.b.b.b) {
+							switch (_v0.a) {
+								case 1:
+									break _v0$1;
+								case 2:
+									var _v2 = _v0.b;
+									var x = _v2.a;
+									var _v3 = _v2.b;
+									var y = _v3.a;
+									return _List_fromArray(
+										[x, y]);
+								case 3:
+									if (_v0.b.b.b.b) {
+										var _v4 = _v0.b;
+										var x = _v4.a;
+										var _v5 = _v4.b;
+										var y = _v5.a;
+										var _v6 = _v5.b;
+										var z = _v6.a;
+										return _List_fromArray(
+											[x, y, z]);
+									} else {
+										break _v0$5;
+									}
+								default:
+									if (_v0.b.b.b.b && _v0.b.b.b.b.b) {
+										var _v7 = _v0.b;
+										var x = _v7.a;
+										var _v8 = _v7.b;
+										var y = _v8.a;
+										var _v9 = _v8.b;
+										var z = _v9.a;
+										var _v10 = _v9.b;
+										var w = _v10.a;
+										var tl = _v10.b;
+										return (ctr > 1000) ? A2(
+											$elm$core$List$cons,
+											x,
+											A2(
+												$elm$core$List$cons,
+												y,
+												A2(
+													$elm$core$List$cons,
+													z,
+													A2(
+														$elm$core$List$cons,
+														w,
+														A2($elm$core$List$takeTailRec, n - 4, tl))))) : A2(
+											$elm$core$List$cons,
+											x,
+											A2(
+												$elm$core$List$cons,
+												y,
+												A2(
+													$elm$core$List$cons,
+													z,
+													A2(
+														$elm$core$List$cons,
+														w,
+														A3($elm$core$List$takeFast, ctr + 1, n - 4, tl)))));
+									} else {
+										break _v0$5;
+									}
+							}
+						} else {
+							if (_v0.a === 1) {
+								break _v0$1;
+							} else {
+								break _v0$5;
+							}
+						}
+					}
+				}
+				return list;
+			}
+			var _v1 = _v0.b;
+			var x = _v1.a;
+			return _List_fromArray(
+				[x]);
+		}
+	});
+var $elm$core$List$take = F2(
+	function (n, list) {
+		return A3($elm$core$List$takeFast, 0, n, list);
+	});
+var $elm_community$list_extra$List$Extra$groupsOfWithStep = F3(
+	function (size, step, xs) {
+		var xs_ = A2($elm$core$List$drop, step, xs);
+		var thisGroup = A2($elm$core$List$take, size, xs);
+		var okayLength = _Utils_eq(
+			size,
+			$elm$core$List$length(thisGroup));
+		var okayArgs = (size > 0) && (step > 0);
+		return (okayArgs && okayLength) ? A2(
+			$elm$core$List$cons,
+			thisGroup,
+			A3($elm_community$list_extra$List$Extra$groupsOfWithStep, size, step, xs_)) : _List_Nil;
+	});
+var $elm_community$list_extra$List$Extra$groupsOf = F2(
+	function (size, xs) {
+		return A3($elm_community$list_extra$List$Extra$groupsOfWithStep, size, size, xs);
+	});
 var $elm$core$Tuple$pair = F2(
 	function (a, b) {
 		return _Utils_Tuple2(a, b);
 	});
+var $elm$core$List$sum = function (numbers) {
+	return A3($elm$core$List$foldl, $elm$core$Basics$add, 0, numbers);
+};
 var $elm$core$List$tail = function (list) {
 	if (list.b) {
 		var x = list.a;
@@ -5197,30 +5361,34 @@ var $elm$core$Maybe$withDefault = F2(
 			return _default;
 		}
 	});
-var $author$project$Main$calculateDiff = function (tlst) {
-	var _v0 = $elm$core$List$unzip(tlst);
-	var ilst = _v0.a;
-	var lst = _v0.b;
-	var ziplist = A3(
-		$elm$core$List$map2,
-		$elm$core$Tuple$pair,
-		lst,
-		A2(
-			$elm$core$Maybe$withDefault,
-			_List_Nil,
-			$elm$core$List$tail(lst)));
-	return A2(
-		$elm$core$List$indexedMap,
-		$elm$core$Tuple$pair,
-		A2(
+var $author$project$Main$calculateDiff = F2(
+	function (tlst, inter) {
+		var _v0 = $elm$core$List$unzip(tlst);
+		var lst = _v0.b;
+		var ziplist = A2(
 			$elm$core$List$map,
 			function (_v1) {
 				var x = _v1.a;
 				var y = _v1.b;
 				return y - x;
 			},
-			ziplist));
-};
+			A3(
+				$elm$core$List$map2,
+				$elm$core$Tuple$pair,
+				lst,
+				A2(
+					$elm$core$Maybe$withDefault,
+					_List_Nil,
+					$elm$core$List$tail(lst))));
+		var lst3 = A2(
+			$elm$core$List$map,
+			$elm$core$List$sum,
+			A2($elm_community$list_extra$List$Extra$groupsOf, 3, ziplist));
+		return A2(
+			$elm$core$List$indexedMap,
+			$elm$core$Tuple$pair,
+			inter ? ziplist : lst3);
+	});
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5331,11 +5499,10 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
+var $elm$html$Html$pre = _VirtualDom_node('pre');
 var $author$project$Main$index = function (t) {
 	return t.a;
 };
-var $elm$core$Basics$modBy = _Basics_modBy;
-var $elm$core$Basics$neq = _Utils_notEqual;
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $author$project$Main$value = function (t) {
@@ -5363,13 +5530,7 @@ var $author$project$Main$renderDiff = F2(
 								_List_fromArray(
 									[
 										displayattr(
-										$author$project$Main$index(t)),
-										_Utils_Tuple2(
-										'hideNumber',
-										(!inter) && (!(!A2(
-											$elm$core$Basics$modBy,
-											3,
-											$author$project$Main$index(t)))))
+										$author$project$Main$index(t))
 									]))
 							]),
 						_List_fromArray(
@@ -5381,6 +5542,8 @@ var $author$project$Main$renderDiff = F2(
 				},
 				lst));
 	});
+var $elm$core$Basics$modBy = _Basics_modBy;
+var $elm$core$Basics$neq = _Utils_notEqual;
 var $author$project$Main$renderNumbers = F3(
 	function (lst, limit, inter) {
 		var numattr = F2(
@@ -5549,6 +5712,14 @@ var $author$project$Main$view = function (model) {
 						$elm$html$Html$text('Press to decrease')
 					])),
 				A2(
+				$elm$html$Html$pre,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text(
+						$elm$core$String$fromInt(model.rangeMax))
+					])),
+				A2(
 				$elm$html$Html$button,
 				_List_fromArray(
 					[
@@ -5589,7 +5760,7 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text('SPOILER ALERT!')
+						$elm$html$Html$text(model.modeText)
 					])),
 				A2(
 				$elm$html$Html$h2,
@@ -5612,7 +5783,7 @@ var $author$project$Main$view = function (model) {
 					[
 						A2(
 						$author$project$Main$renderDiff,
-						$author$project$Main$calculateDiff(numberList),
+						A2($author$project$Main$calculateDiff, numberList, model.inter),
 						model.inter)
 					]))
 			]));

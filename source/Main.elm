@@ -3,8 +3,9 @@ module Main exposing (Msg(..), main, update, view)
 import Browser
 import Browser.Dom as Dom
 import Html exposing (Html, a, button, div, h1, h2, hr, img, li, pre, span, text, ul)
-import Html.Attributes exposing (alt, classList, href, id, rel, src, target, disabled)
+import Html.Attributes exposing (alt, classList, disabled, href, id, rel, src, target)
 import Html.Events exposing (onClick)
+import List.Extra
 import Maybe exposing (map, withDefault)
 import String exposing (concat, fromChar, fromInt, toInt, toList)
 import Task
@@ -14,7 +15,8 @@ type alias Model =
     { rangeMax : Int -- to display an initial set of numbers in the sequence
     , limit : Int -- font colour beyond the six numbers in the sequence
     , inter : Bool -- intermediary values to display as well?
-    , spoilerMode : Bool 
+    , spoilerMode : Bool
+    , modeText : String
     }
 
 
@@ -24,6 +26,7 @@ init _ =
       , limit = 18
       , inter = False
       , spoilerMode = True
+      , modeText = "SPOILER ALERT!"
       }
     , focusSearchBox
     )
@@ -60,17 +63,21 @@ squareList rangeMax =
         |> List.indexedMap Tuple.pair
 
 
-calculateDiff : List ( Int, Int ) -> List ( Int, Int )
-calculateDiff tlst =
+calculateDiff : List ( Int, Int ) -> Bool -> List ( Int, Int )
+calculateDiff tlst inter =
     let
-        ( ilst, lst ) =
+        ( _, lst ) =
             List.unzip tlst
 
         ziplist =
             List.map2 Tuple.pair lst (withDefault [] (List.tail lst))
+              |> List.map (\( x, y ) -> y - x)
+
+        lst3 = ziplist |> List.Extra.groupsOf 3 |> List.map List.sum
+                    
     in
-    List.map (\( x, y ) -> y - x) ziplist
-        |> List.indexedMap Tuple.pair
+    (if inter then ziplist else lst3) 
+      |> List.indexedMap Tuple.pair
 
 
 main =
@@ -93,13 +100,16 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Increment ->
-            ( { model | rangeMax = model.rangeMax + 3
-                      , spoilerMode = 
-                        if model.spoilerMode && model.rangeMax > 60 
-                        then False 
-                        else model.spoilerMode
+            ( { model
+                | rangeMax = model.rangeMax + 3
+                , spoilerMode =
+                    if model.spoilerMode && model.rangeMax > 30 then
+                        False
+
+                    else
+                        model.spoilerMode
               }
-            , Cmd.none 
+            , Cmd.none
             )
 
         Decrement ->
@@ -115,12 +125,24 @@ update msg model =
             )
 
         ToggleInter ->
+            {--
             if model.rangeMax == 0 then
                 ( { model | rangeMax = 21, inter = not model.inter }, focusSearchBox )
 
             else
                 ( { model | rangeMax = 21, inter = not model.inter }, focusSearchBox )
-
+            --}
+            let 
+              mtext = if model.modeText == "hide hints"
+                      then "show hints" else "hide hints"
+            in
+            ( { model | inter = not model.inter
+                      , modeText = mtext
+              }
+              , 
+              focusSearchBox
+            )
+              
         NoOp ->
             ( model, Cmd.none )
 
@@ -149,12 +171,13 @@ view model =
         , footer
         , hr [] []
         , button [ onClick Decrement ] [ text "Press to decrease" ]
+        , pre [] [ text <| String.fromInt model.rangeMax ]
         , button [ id "increment", onClick Increment ] [ text "Press to increase" ]
         , h2 [] [ text "The sequence" ]
         , div [ classList [ ( "numbers", True ) ] ] [ renderNumbers numberList model.limit model.inter ]
-        , button [ onClick ToggleInter, disabled model.spoilerMode ] [ text "SPOILER ALERT!" ]
+        , button [ onClick ToggleInter, disabled model.spoilerMode ] [ text model.modeText ]
         , h2 [] [ text "The difference" ]
-        , div [ classList [ ( "numbers", True ) ] ] [ renderDiff (calculateDiff numberList) model.inter ]
+        , div [ classList [ ( "numbers", True ) ] ] [ renderDiff (calculateDiff numberList model.inter) model.inter ]
         ]
 
 
@@ -202,7 +225,7 @@ renderDiff lst inter =
                 span
                     [ classList
                         [ displayattr (index t)
-                        , ( "hideNumber", not inter && modBy 3 (index t) /= 0 )
+                        -- , ( "hideNumber", not inter && modBy 3 (index t) /= 0 )
                         ]
                     ]
                     [ text (String.fromInt (value t) ++ ", ") ]
