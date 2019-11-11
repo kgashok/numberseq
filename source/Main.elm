@@ -65,26 +65,19 @@ squareList rangeMax =
         |> List.indexedMap Tuple.pair
 
 
-calculateDiff : List ( Int, Int ) -> Bool -> List ( Int, Int )
-calculateDiff tlst inter =
-    let
-        ( _, lst ) =
-            List.unzip tlst
+mapAdjacent : (a -> a -> b) -> List a -> List b
+mapAdjacent f list =
+    List.map2 f list (withDefault [] (List.tail list))
 
-        ziplist =
-            List.map2 Tuple.pair lst (withDefault [] (List.tail lst))
-                |> List.map (\( x, y ) -> y - x)
 
-        lst3 =
-            ziplist |> List.Extra.groupsOf 3 |> List.map List.sum
-    in
-    (if inter then
-        ziplist
+calculateDiff : List Int -> List Int
+calculateDiff =
+    mapAdjacent (\x y -> y - x)
 
-     else
-        lst3
-    )
-        |> List.indexedMap Tuple.pair
+
+calculateDiff3 : List Int -> List Int
+calculateDiff3 =
+    calculateDiff >> List.Extra.groupsOf 3 >> List.map List.sum
 
 
 main =
@@ -173,7 +166,14 @@ view model =
         numberList =
             List.range 1 model.rangeMax
                 |> List.map squareDigit
-                |> List.indexedMap Tuple.pair
+
+        -- |> List.indexedMap Tuple.pair
+        differenceList =
+            if model.inter then
+                calculateDiff numberList
+
+            else
+                calculateDiff3 numberList
 
         --}
     in
@@ -182,6 +182,7 @@ view model =
         , footer
         , hr [] []
         , button [ onClick Decrement ] [ text "Press to decrease" ]
+
         -- , pre [] [ text <| String.fromInt model.rangeMax ]
         , button [ id "increment", onClick Increment ] [ text "Press to increase" ]
         , h2 [] [ text "The sequence" ]
@@ -191,11 +192,11 @@ view model =
             [ text model.modeText ]
         , h2 [] [ text "The difference" ]
         , div [ classList [ ( "numbers", True ) ] ]
-            [ renderDiff (calculateDiff numberList model.inter) model.inter ]
+            [ renderDiff differenceList model.inter ]
         ]
 
 
-renderNumbers : List ( Int, Int ) -> Int -> Bool -> Html msg
+renderNumbers : List Int -> Int -> Bool -> Html msg
 renderNumbers lst limit inter =
     let
         numattr index_ limit_ =
@@ -205,6 +206,7 @@ renderNumbers lst limit inter =
             ( "interNumber", modBy 3 index_ /= 0 )
     in
     lst
+        |> List.indexedMap Tuple.pair
         |> List.map (\t -> ( t, String.fromInt (value t) ++ ", " ))
         |> List.map
             (\( t, intAsText ) ->
@@ -220,7 +222,7 @@ renderNumbers lst limit inter =
         |> ul []
 
 
-renderDiff : List ( Int, Int ) -> Bool -> Html msg
+renderDiff : List Int -> Bool -> Html msg
 renderDiff lst inter =
     let
         lastIndex =
@@ -234,6 +236,7 @@ renderDiff lst inter =
             ( "numberRed", index_ == lastIndex )
     in
     lst
+        |> List.indexedMap Tuple.pair
         |> List.map
             (\t ->
                 span
@@ -356,3 +359,29 @@ strong n =
 
     else
         "Not Strong !!"
+
+
+
+{--
+calculateDiff : List ( Int, Int ) -> Bool -> List ( Int, Int )
+calculateDiff tlst inter =
+    let
+        ( _, lst ) =
+            List.unzip tlst
+
+        ziplist =
+            List.map2 Tuple.pair lst (withDefault [] (List.tail lst))
+                |> List.map (\( x, y ) -> y - x)
+
+        lst3 =
+            ziplist |> List.Extra.groupsOf 3 |> List.map List.sum
+    in
+    (if inter then
+        ziplist
+
+     else
+        lst3
+    )
+        |> List.indexedMap Tuple.pair
+
+--}

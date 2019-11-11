@@ -5155,6 +5155,45 @@ var $author$project$Main$Decrement = {$: 'Decrement'};
 var $author$project$Main$Increment = {$: 'Increment'};
 var $author$project$Main$ToggleInter = {$: 'ToggleInter'};
 var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$core$List$tail = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(xs);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var $author$project$Main$mapAdjacent = F2(
+	function (f, list) {
+		return A3(
+			$elm$core$List$map2,
+			f,
+			list,
+			A2(
+				$elm$core$Maybe$withDefault,
+				_List_Nil,
+				$elm$core$List$tail(list)));
+	});
+var $author$project$Main$calculateDiff = $author$project$Main$mapAdjacent(
+	F2(
+		function (x, y) {
+			return y - x;
+		}));
+var $elm$core$Basics$composeR = F3(
+	function (f, g, x) {
+		return g(
+			f(x));
+	});
 var $elm$core$List$drop = F2(
 	function (n, list) {
 		drop:
@@ -5319,76 +5358,16 @@ var $elm_community$list_extra$List$Extra$groupsOf = F2(
 	function (size, xs) {
 		return A3($elm_community$list_extra$List$Extra$groupsOfWithStep, size, size, xs);
 	});
-var $elm$core$Tuple$pair = F2(
-	function (a, b) {
-		return _Utils_Tuple2(a, b);
-	});
 var $elm$core$List$sum = function (numbers) {
 	return A3($elm$core$List$foldl, $elm$core$Basics$add, 0, numbers);
 };
-var $elm$core$List$tail = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(xs);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
-var $elm$core$List$unzip = function (pairs) {
-	var step = F2(
-		function (_v0, _v1) {
-			var x = _v0.a;
-			var y = _v0.b;
-			var xs = _v1.a;
-			var ys = _v1.b;
-			return _Utils_Tuple2(
-				A2($elm$core$List$cons, x, xs),
-				A2($elm$core$List$cons, y, ys));
-		});
-	return A3(
-		$elm$core$List$foldr,
-		step,
-		_Utils_Tuple2(_List_Nil, _List_Nil),
-		pairs);
-};
-var $elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return value;
-		} else {
-			return _default;
-		}
-	});
-var $author$project$Main$calculateDiff = F2(
-	function (tlst, inter) {
-		var _v0 = $elm$core$List$unzip(tlst);
-		var lst = _v0.b;
-		var ziplist = A2(
-			$elm$core$List$map,
-			function (_v1) {
-				var x = _v1.a;
-				var y = _v1.b;
-				return y - x;
-			},
-			A3(
-				$elm$core$List$map2,
-				$elm$core$Tuple$pair,
-				lst,
-				A2(
-					$elm$core$Maybe$withDefault,
-					_List_Nil,
-					$elm$core$List$tail(lst))));
-		var lst3 = A2(
-			$elm$core$List$map,
-			$elm$core$List$sum,
-			A2($elm_community$list_extra$List$Extra$groupsOf, 3, ziplist));
-		return A2(
-			$elm$core$List$indexedMap,
-			$elm$core$Tuple$pair,
-			inter ? ziplist : lst3);
-	});
+var $author$project$Main$calculateDiff3 = A2(
+	$elm$core$Basics$composeR,
+	$author$project$Main$calculateDiff,
+	A2(
+		$elm$core$Basics$composeR,
+		$elm_community$list_extra$List$Extra$groupsOf(3),
+		$elm$core$List$map($elm$core$List$sum)));
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -5502,6 +5481,10 @@ var $elm$html$Html$Events$onClick = function (msg) {
 var $author$project$Main$index = function (t) {
 	return t.a;
 };
+var $elm$core$Tuple$pair = F2(
+	function (a, b) {
+		return _Utils_Tuple2(a, b);
+	});
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $author$project$Main$value = function (t) {
@@ -5539,7 +5522,7 @@ var $author$project$Main$renderDiff = F2(
 									$author$project$Main$value(t)) + ', ')
 							]));
 				},
-				lst));
+				A2($elm$core$List$indexedMap, $elm$core$Tuple$pair, lst)));
 	});
 var $elm$core$Basics$modBy = _Basics_modBy;
 var $elm$core$Basics$neq = _Utils_notEqual;
@@ -5598,12 +5581,7 @@ var $author$project$Main$renderNumbers = F3(
 							$elm$core$String$fromInt(
 								$author$project$Main$value(t)) + ', ');
 					},
-					lst)));
-	});
-var $elm$core$Basics$composeR = F3(
-	function (f, g, x) {
-		return g(
-			f(x));
+					A2($elm$core$List$indexedMap, $elm$core$Tuple$pair, lst))));
 	});
 var $elm$core$String$concat = function (strings) {
 	return A2($elm$core$String$join, '', strings);
@@ -5674,12 +5652,10 @@ var $author$project$Main$squareDigit = A2(
 					$elm$core$Maybe$withDefault(0))))));
 var $author$project$Main$view = function (model) {
 	var numberList = A2(
-		$elm$core$List$indexedMap,
-		$elm$core$Tuple$pair,
-		A2(
-			$elm$core$List$map,
-			$author$project$Main$squareDigit,
-			A2($elm$core$List$range, 1, model.rangeMax)));
+		$elm$core$List$map,
+		$author$project$Main$squareDigit,
+		A2($elm$core$List$range, 1, model.rangeMax));
+	var differenceList = model.inter ? $author$project$Main$calculateDiff(numberList) : $author$project$Main$calculateDiff3(numberList);
 	return A2(
 		$elm$html$Html$div,
 		_List_Nil,
@@ -5772,10 +5748,7 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A2(
-						$author$project$Main$renderDiff,
-						A2($author$project$Main$calculateDiff, numberList, model.inter),
-						model.inter)
+						A2($author$project$Main$renderDiff, differenceList, model.inter)
 					]))
 			]));
 };
