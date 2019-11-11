@@ -5,7 +5,7 @@ import Browser.Dom as Dom
 import Html exposing (Html, a, button, div, h1, h2, hr, img, li, pre, span, text, ul)
 import Html.Attributes exposing (alt, classList, disabled, href, id, rel, src, target)
 import Html.Events exposing (onClick)
-import List.Extra
+import List.Extra exposing (groupsOf)
 import Maybe exposing (map, withDefault)
 import String exposing (concat, fromChar, fromInt, toInt, toList)
 import Task
@@ -77,7 +77,7 @@ calculateDiff =
 
 calculateDiff3 : List Int -> List Int
 calculateDiff3 =
-    calculateDiff >> List.Extra.groupsOf 3 >> List.map List.sum
+    calculateDiff >> groupsOf 3 >> List.map List.sum
 
 
 main =
@@ -188,6 +188,8 @@ view model =
         , h2 [] [ text "The sequence" ]
         , div [ classList [ ( "numbers", True ) ] ]
             [ renderNumbers numberList model.limit model.inter ]
+
+        -- , hr [] []
         , button [ onClick ToggleInter, disabled model.spoilerMode ]
             [ text model.modeText ]
         , h2 [] [ text "The difference" ]
