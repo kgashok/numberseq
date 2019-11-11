@@ -207,15 +207,15 @@ renderNumbers lst limit inter =
     in
     lst
         |> List.indexedMap
-            (\i v ->
+            (\index value ->
                 span
                     [ classList
-                        [ numattr i limit
-                        , interattr i
-                        , ( "hideNumber", not inter && modBy 3 i /= 0 )
+                        [ numattr index limit
+                        , interattr index
+                        , ( "hideNumber", not inter && modBy 3 index /= 0 )
                         ]
                     ]
-                    [ text (String.fromInt v ++ ", ") ]
+                    [ text (String.fromInt value ++ ", ") ]
             )
         |> ul []
 
@@ -235,10 +235,10 @@ renderDiff lst inter =
     in
     lst
         |> List.indexedMap
-            (\i v ->
+            (\index value ->
                 span
-                    [ classList [ displayattr i ] ]
-                    [ text (String.fromInt v ++ ", ") ]
+                    [ classList [ displayattr index ] ]
+                    [ text (String.fromInt value ++ ", ") ]
             )
         |> ul []
 
@@ -263,14 +263,6 @@ footer =
             ]
             [ text " last checkin" ]
         ]
-
-
-index t =
-    Tuple.first t
-
-
-value t =
-    Tuple.second t
 
 
 

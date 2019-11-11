@@ -5494,7 +5494,7 @@ var $author$project$Main$renderDiff = F2(
 			A2(
 				$elm$core$List$indexedMap,
 				F2(
-					function (i, v) {
+					function (index, value) {
 						return A2(
 							$elm$html$Html$span,
 							_List_fromArray(
@@ -5502,13 +5502,13 @@ var $author$project$Main$renderDiff = F2(
 									$elm$html$Html$Attributes$classList(
 									_List_fromArray(
 										[
-											displayattr(i)
+											displayattr(index)
 										]))
 								]),
 							_List_fromArray(
 								[
 									$elm$html$Html$text(
-									$elm$core$String$fromInt(v) + ', ')
+									$elm$core$String$fromInt(value) + ', ')
 								]));
 					}),
 				lst));
@@ -5534,7 +5534,7 @@ var $author$project$Main$renderNumbers = F3(
 			A2(
 				$elm$core$List$indexedMap,
 				F2(
-					function (i, v) {
+					function (index, value) {
 						return A2(
 							$elm$html$Html$span,
 							_List_fromArray(
@@ -5542,17 +5542,17 @@ var $author$project$Main$renderNumbers = F3(
 									$elm$html$Html$Attributes$classList(
 									_List_fromArray(
 										[
-											A2(numattr, i, limit),
-											interattr(i),
+											A2(numattr, index, limit),
+											interattr(index),
 											_Utils_Tuple2(
 											'hideNumber',
-											(!inter) && (!(!A2($elm$core$Basics$modBy, 3, i))))
+											(!inter) && (!(!A2($elm$core$Basics$modBy, 3, index))))
 										]))
 								]),
 							_List_fromArray(
 								[
 									$elm$html$Html$text(
-									$elm$core$String$fromInt(v) + ', ')
+									$elm$core$String$fromInt(value) + ', ')
 								]));
 					}),
 				lst));
