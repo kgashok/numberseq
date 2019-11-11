@@ -205,7 +205,7 @@ renderNumbers lst limit inter =
             (\index value ->
                 span
                     [ classList
-                        [ ( "numberRed", index > limit )
+                        [ ( "highlightNum", index > limit )
                         , ( "interNumber", modBy 3 index /= 0 )
                         , ( "hideNumber", not inter && modBy 3 index /= 0 )
                         ]
@@ -228,11 +228,7 @@ renderDiff lst inter =
     lst
         |> List.indexedMap
             (\index value ->
-                span
-                    [ classList
-                        [ ( "numberRed", index == lastIndex )
-                        ]
-                    ]
+                span [ classList [ ( "highlightNum", index == lastIndex ) ] ]
                     [ text (String.fromInt value ++ ", ") ]
             )
         |> ul []
