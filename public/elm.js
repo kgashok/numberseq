@@ -5478,18 +5478,8 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $author$project$Main$index = function (t) {
-	return t.a;
-};
-var $elm$core$Tuple$pair = F2(
-	function (a, b) {
-		return _Utils_Tuple2(a, b);
-	});
 var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$html$Html$ul = _VirtualDom_node('ul');
-var $author$project$Main$value = function (t) {
-	return t.b;
-};
 var $author$project$Main$renderDiff = F2(
 	function (lst, inter) {
 		var lastIndex = inter ? ($elm$core$List$length(lst) - 3) : ($elm$core$List$length(lst) - 1);
@@ -5502,30 +5492,39 @@ var $author$project$Main$renderDiff = F2(
 			$elm$html$Html$ul,
 			_List_Nil,
 			A2(
-				$elm$core$List$map,
-				function (t) {
-					return A2(
-						$elm$html$Html$span,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$classList(
-								_List_fromArray(
-									[
-										displayattr(
-										$author$project$Main$index(t))
-									]))
-							]),
-						_List_fromArray(
-							[
-								$elm$html$Html$text(
-								$elm$core$String$fromInt(
-									$author$project$Main$value(t)) + ', ')
-							]));
-				},
-				A2($elm$core$List$indexedMap, $elm$core$Tuple$pair, lst)));
+				$elm$core$List$indexedMap,
+				F2(
+					function (i, v) {
+						return A2(
+							$elm$html$Html$span,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$classList(
+									_List_fromArray(
+										[
+											displayattr(i)
+										]))
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(
+									$elm$core$String$fromInt(v) + ', ')
+								]));
+					}),
+				lst));
 	});
+var $author$project$Main$index = function (t) {
+	return t.a;
+};
 var $elm$core$Basics$modBy = _Basics_modBy;
 var $elm$core$Basics$neq = _Utils_notEqual;
+var $elm$core$Tuple$pair = F2(
+	function (a, b) {
+		return _Utils_Tuple2(a, b);
+	});
+var $author$project$Main$value = function (t) {
+	return t.b;
+};
 var $author$project$Main$renderNumbers = F3(
 	function (lst, limit, inter) {
 		var numattr = F2(

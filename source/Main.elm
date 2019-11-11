@@ -236,17 +236,19 @@ renderDiff lst inter =
             ( "numberRed", index_ == lastIndex )
     in
     lst
-        |> List.indexedMap Tuple.pair
-        |> List.map
-            (\t ->
+        -- |> List.indexedMap Tuple.pair
+        -- |> List.map
+        --    (\t ->
+        |> List.indexedMap
+            (\i v ->
                 span
                     [ classList
-                        [ displayattr (index t)
+                        [ displayattr i
 
                         -- , ( "hideNumber", not inter && modBy 3 (index t) /= 0 )
                         ]
                     ]
-                    [ text (String.fromInt (value t) ++ ", ") ]
+                    [ text (String.fromInt v ++ ", ") ]
             )
         |> ul []
 
