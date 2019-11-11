@@ -5476,11 +5476,6 @@ var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $author$project$Main$renderDiff = F2(
 	function (lst, inter) {
 		var lastIndex = inter ? ($elm$core$List$length(lst) - 3) : ($elm$core$List$length(lst) - 1);
-		var displayattr = function (index_) {
-			return _Utils_Tuple2(
-				'numberRed',
-				_Utils_eq(index_, lastIndex));
-		};
 		return A2(
 			$elm$html$Html$ul,
 			_List_Nil,
@@ -5495,7 +5490,9 @@ var $author$project$Main$renderDiff = F2(
 									$elm$html$Html$Attributes$classList(
 									_List_fromArray(
 										[
-											displayattr(index)
+											_Utils_Tuple2(
+											'numberRed',
+											_Utils_eq(index, lastIndex))
 										]))
 								]),
 							_List_fromArray(
@@ -5510,17 +5507,6 @@ var $elm$core$Basics$modBy = _Basics_modBy;
 var $elm$core$Basics$neq = _Utils_notEqual;
 var $author$project$Main$renderNumbers = F3(
 	function (lst, limit, inter) {
-		var numattr = F2(
-			function (index_, limit_) {
-				return _Utils_Tuple2(
-					'numberRed',
-					_Utils_cmp(index_, limit_) > 0);
-			});
-		var interattr = function (index_) {
-			return _Utils_Tuple2(
-				'interNumber',
-				!(!A2($elm$core$Basics$modBy, 3, index_)));
-		};
 		return A2(
 			$elm$html$Html$ul,
 			_List_Nil,
@@ -5535,8 +5521,12 @@ var $author$project$Main$renderNumbers = F3(
 									$elm$html$Html$Attributes$classList(
 									_List_fromArray(
 										[
-											A2(numattr, index, limit),
-											interattr(index),
+											_Utils_Tuple2(
+											'numberRed',
+											_Utils_cmp(index, limit) > 0),
+											_Utils_Tuple2(
+											'interNumber',
+											!(!A2($elm$core$Basics$modBy, 3, index))),
 											_Utils_Tuple2(
 											'hideNumber',
 											(!inter) && (!(!A2($elm$core$Basics$modBy, 3, index))))

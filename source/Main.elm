@@ -200,20 +200,13 @@ view model =
 
 renderNumbers : List Int -> Int -> Bool -> Html msg
 renderNumbers lst limit inter =
-    let
-        numattr index_ limit_ =
-            ( "numberRed", index_ > limit_ )
-
-        interattr index_ =
-            ( "interNumber", modBy 3 index_ /= 0 )
-    in
     lst
         |> List.indexedMap
             (\index value ->
                 span
                     [ classList
-                        [ numattr index limit
-                        , interattr index
+                        [ ( "numberRed", index > limit )
+                        , ( "interNumber", modBy 3 index /= 0 )
                         , ( "hideNumber", not inter && modBy 3 index /= 0 )
                         ]
                     ]
@@ -231,15 +224,15 @@ renderDiff lst inter =
 
             else
                 List.length lst - 1
-
-        displayattr index_ =
-            ( "numberRed", index_ == lastIndex )
     in
     lst
         |> List.indexedMap
             (\index value ->
                 span
-                    [ classList [ displayattr index ] ]
+                    [ classList
+                        [ ( "numberRed", index == lastIndex )
+                        ]
+                    ]
                     [ text (String.fromInt value ++ ", ") ]
             )
         |> ul []
