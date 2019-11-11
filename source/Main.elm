@@ -206,18 +206,16 @@ renderNumbers lst limit inter =
             ( "interNumber", modBy 3 index_ /= 0 )
     in
     lst
-        |> List.indexedMap Tuple.pair
-        |> List.map (\t -> ( t, String.fromInt (value t) ++ ", " ))
-        |> List.map
-            (\( t, intAsText ) ->
+        |> List.indexedMap
+            (\i v ->
                 span
                     [ classList
-                        [ numattr (index t) limit
-                        , interattr (index t)
-                        , ( "hideNumber", not inter && modBy 3 (index t) /= 0 )
+                        [ numattr i limit
+                        , interattr i
+                        , ( "hideNumber", not inter && modBy 3 i /= 0 )
                         ]
                     ]
-                    [ text intAsText ]
+                    [ text (String.fromInt v ++ ", ") ]
             )
         |> ul []
 
@@ -239,7 +237,7 @@ renderDiff lst inter =
         |> List.indexedMap
             (\i v ->
                 span
-                    [ classList [ displayattr i ]
+                    [ classList [ displayattr i ] ]
                     [ text (String.fromInt v ++ ", ") ]
             )
         |> ul []
