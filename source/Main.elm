@@ -17,7 +17,7 @@ type alias Model =
     , inter : Bool -- intermediary values to display as well?
     , spoilerMode : Bool
     , spoilerVal : Int -- the spoiler gets enabled when rangeMax > spoilerVal
-    , modeText : String
+    , modeText : String -- button text for the spoiler
     }
 
 
@@ -53,18 +53,6 @@ squareDigit =
         >> withDefault 0
 
 
-squareList : Int -> List ( Int, Int )
-squareList rangeMax =
-    let
-        rangeList =
-            List.range 1 rangeMax
-                |> List.filter (\x -> modBy 3 (x - 1) == 0)
-    in
-    rangeList
-        |> List.map squareDigit
-        |> List.indexedMap Tuple.pair
-
-
 mapAdjacent : (a -> a -> b) -> List a -> List b
 mapAdjacent f list =
     List.map2 f list (withDefault [] (List.tail list))
@@ -81,11 +69,16 @@ calculateDiff3 =
 
 
 main =
-    Browser.element { init = init, view = view, update = update, subscriptions = subscriptions }
+    Browser.element
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        }
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
 
 
@@ -125,13 +118,6 @@ update msg model =
             )
 
         ToggleInter ->
-            {--
-            if model.rangeMax == 0 then
-                ( { model | rangeMax = 21, inter = not model.inter }, focusSearchBox )
-
-            else
-                ( { model | rangeMax = 21, inter = not model.inter }, focusSearchBox )
-            --}
             let
                 mtext =
                     if model.modeText == "hide hints" then
@@ -160,22 +146,16 @@ view : Model -> Html Msg
 view model =
     -- div [] [ text (squareList 20)]
     let
-        -- numberList =
-        --    squareList model.rangeMax
-        {--}
         numberList =
             List.range 1 model.rangeMax
                 |> List.map squareDigit
 
-        -- |> List.indexedMap Tuple.pair
         differenceList =
             if model.inter then
                 calculateDiff numberList
 
             else
                 calculateDiff3 numberList
-
-        --}
     in
     div []
         [ div [] [ h1 [] [ text "What's next and Why?" ] ]
@@ -234,6 +214,7 @@ renderDiff lst inter =
         |> ul []
 
 
+gitRepo : String
 gitRepo =
     "https://github.com/kgashok/numberseq"
 
@@ -258,6 +239,40 @@ footer =
 
 
 -- Legacy Code
+{--
+squareList : Int -> List ( Int, Int )
+squareList rangeMax =
+    let
+        rangeList =
+            List.range 1 rangeMax
+                |> List.filter (\x -> modBy 3 (x - 1) == 0)
+    in
+    rangeList
+        |> List.map squareDigit
+        |> List.indexedMap Tuple.pair
+
+
+calculateDiff0 : List ( Int, Int ) -> Bool -> List ( Int, Int )
+calculateDiff0 tlst inter =
+    let
+        ( _, lst ) =
+            List.unzip tlst
+
+        ziplist =
+            List.map2 Tuple.pair lst (withDefault [] (List.tail lst))
+                |> List.map (\( x, y ) -> y - x)
+
+        lst3 =
+            ziplist |> List.Extra.groupsOf 3 |> List.map List.sum
+    in
+    (if inter then
+        ziplist
+
+     else
+        lst3
+    )
+        |> List.indexedMap Tuple.pair
+
 
 
 renderList : List Int -> Html msg
@@ -308,55 +323,5 @@ diffList2 tlst =
             List.map2 Tuple.pair lst (withDefault [] (List.tail lst))
     in
     List.map (\( x, y ) -> y - x) ziplist
-
-
-strong : Int -> String
-strong n =
-    let
-        digitList number =
-            number
-                |> String.fromInt
-                |> String.toList
-                |> List.filterMap (String.fromChar >> String.toInt)
-
-        factorial f =
-            if f <= 1 then
-                1
-
-            else
-                f * factorial (f - 1)
-
-        factsum lst =
-            List.map factorial lst |> List.sum
-    in
-    if n == factsum (digitList n) then
-        "STRONG!!!!"
-
-    else
-        "Not Strong !!"
-
-
-
-{--
-calculateDiff : List ( Int, Int ) -> Bool -> List ( Int, Int )
-calculateDiff tlst inter =
-    let
-        ( _, lst ) =
-            List.unzip tlst
-
-        ziplist =
-            List.map2 Tuple.pair lst (withDefault [] (List.tail lst))
-                |> List.map (\( x, y ) -> y - x)
-
-        lst3 =
-            ziplist |> List.Extra.groupsOf 3 |> List.map List.sum
-    in
-    (if inter then
-        ziplist
-
-     else
-        lst3
-    )
-        |> List.indexedMap Tuple.pair
 
 --}

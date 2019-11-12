@@ -5491,7 +5491,7 @@ var $author$project$Main$renderDiff = F2(
 									_List_fromArray(
 										[
 											_Utils_Tuple2(
-											'numberRed',
+											'highlightNum',
 											_Utils_eq(index, lastIndex))
 										]))
 								]),
@@ -5522,7 +5522,7 @@ var $author$project$Main$renderNumbers = F3(
 									_List_fromArray(
 										[
 											_Utils_Tuple2(
-											'numberRed',
+											'highlightNum',
 											_Utils_cmp(index, limit) > 0),
 											_Utils_Tuple2(
 											'interNumber',

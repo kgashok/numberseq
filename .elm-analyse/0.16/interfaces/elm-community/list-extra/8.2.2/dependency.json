@@ -1,0 +1,366 @@
+{
+  "name": "elm-community/list-extra",
+  "version": "8.2.2",
+  "interfaces": [
+    {
+      "key": [
+        "List",
+        "Extra"
+      ],
+      "value": [
+        {
+          "type": "function",
+          "value": "allDifferent"
+        },
+        {
+          "type": "function",
+          "value": "allDifferentBy"
+        },
+        {
+          "type": "function",
+          "value": "andMap"
+        },
+        {
+          "type": "function",
+          "value": "andThen"
+        },
+        {
+          "type": "function",
+          "value": "break"
+        },
+        {
+          "type": "function",
+          "value": "cartesianProduct"
+        },
+        {
+          "type": "function",
+          "value": "count"
+        },
+        {
+          "type": "function",
+          "value": "cycle"
+        },
+        {
+          "type": "function",
+          "value": "dropWhile"
+        },
+        {
+          "type": "function",
+          "value": "dropWhileRight"
+        },
+        {
+          "type": "function",
+          "value": "elemIndex"
+        },
+        {
+          "type": "function",
+          "value": "elemIndices"
+        },
+        {
+          "type": "function",
+          "value": "filterNot"
+        },
+        {
+          "type": "function",
+          "value": "find"
+        },
+        {
+          "type": "function",
+          "value": "findIndex"
+        },
+        {
+          "type": "function",
+          "value": "findIndices"
+        },
+        {
+          "type": "function",
+          "value": "foldl1"
+        },
+        {
+          "type": "function",
+          "value": "foldr1"
+        },
+        {
+          "type": "function",
+          "value": "gatherEquals"
+        },
+        {
+          "type": "function",
+          "value": "gatherEqualsBy"
+        },
+        {
+          "type": "function",
+          "value": "gatherWith"
+        },
+        {
+          "type": "function",
+          "value": "getAt"
+        },
+        {
+          "type": "function",
+          "value": "greedyGroupsOf"
+        },
+        {
+          "type": "function",
+          "value": "greedyGroupsOfWithStep"
+        },
+        {
+          "type": "function",
+          "value": "group"
+        },
+        {
+          "type": "function",
+          "value": "groupWhile"
+        },
+        {
+          "type": "function",
+          "value": "groupsOf"
+        },
+        {
+          "type": "function",
+          "value": "groupsOfVarying"
+        },
+        {
+          "type": "function",
+          "value": "groupsOfWithStep"
+        },
+        {
+          "type": "function",
+          "value": "indexedFoldl"
+        },
+        {
+          "type": "function",
+          "value": "indexedFoldr"
+        },
+        {
+          "type": "function",
+          "value": "init"
+        },
+        {
+          "type": "function",
+          "value": "initialize"
+        },
+        {
+          "type": "function",
+          "value": "inits"
+        },
+        {
+          "type": "function",
+          "value": "intercalate"
+        },
+        {
+          "type": "function",
+          "value": "interweave"
+        },
+        {
+          "type": "function",
+          "value": "isInfixOf"
+        },
+        {
+          "type": "function",
+          "value": "isPermutationOf"
+        },
+        {
+          "type": "function",
+          "value": "isPrefixOf"
+        },
+        {
+          "type": "function",
+          "value": "isSubsequenceOf"
+        },
+        {
+          "type": "function",
+          "value": "isSuffixOf"
+        },
+        {
+          "type": "function",
+          "value": "iterate"
+        },
+        {
+          "type": "function",
+          "value": "last"
+        },
+        {
+          "type": "function",
+          "value": "lift2"
+        },
+        {
+          "type": "function",
+          "value": "lift3"
+        },
+        {
+          "type": "function",
+          "value": "lift4"
+        },
+        {
+          "type": "function",
+          "value": "mapAccuml"
+        },
+        {
+          "type": "function",
+          "value": "mapAccumr"
+        },
+        {
+          "type": "function",
+          "value": "maximumBy"
+        },
+        {
+          "type": "function",
+          "value": "maximumWith"
+        },
+        {
+          "type": "function",
+          "value": "minimumBy"
+        },
+        {
+          "type": "function",
+          "value": "minimumWith"
+        },
+        {
+          "type": "function",
+          "value": "notMember"
+        },
+        {
+          "type": "function",
+          "value": "permutations"
+        },
+        {
+          "type": "function",
+          "value": "remove"
+        },
+        {
+          "type": "function",
+          "value": "removeAt"
+        },
+        {
+          "type": "function",
+          "value": "removeIfIndex"
+        },
+        {
+          "type": "function",
+          "value": "reverseMap"
+        },
+        {
+          "type": "function",
+          "value": "scanl"
+        },
+        {
+          "type": "function",
+          "value": "scanl1"
+        },
+        {
+          "type": "function",
+          "value": "scanr"
+        },
+        {
+          "type": "function",
+          "value": "scanr1"
+        },
+        {
+          "type": "function",
+          "value": "select"
+        },
+        {
+          "type": "function",
+          "value": "selectSplit"
+        },
+        {
+          "type": "function",
+          "value": "setAt"
+        },
+        {
+          "type": "function",
+          "value": "setIf"
+        },
+        {
+          "type": "function",
+          "value": "span"
+        },
+        {
+          "type": "function",
+          "value": "splitAt"
+        },
+        {
+          "type": "function",
+          "value": "splitWhen"
+        },
+        {
+          "type": "function",
+          "value": "stableSortWith"
+        },
+        {
+          "type": "function",
+          "value": "stripPrefix"
+        },
+        {
+          "type": "function",
+          "value": "subsequences"
+        },
+        {
+          "type": "function",
+          "value": "swapAt"
+        },
+        {
+          "type": "function",
+          "value": "tails"
+        },
+        {
+          "type": "function",
+          "value": "takeWhile"
+        },
+        {
+          "type": "function",
+          "value": "takeWhileRight"
+        },
+        {
+          "type": "function",
+          "value": "transpose"
+        },
+        {
+          "type": "function",
+          "value": "uncons"
+        },
+        {
+          "type": "function",
+          "value": "unconsLast"
+        },
+        {
+          "type": "function",
+          "value": "unfoldr"
+        },
+        {
+          "type": "function",
+          "value": "unique"
+        },
+        {
+          "type": "function",
+          "value": "uniqueBy"
+        },
+        {
+          "type": "function",
+          "value": "uniquePairs"
+        },
+        {
+          "type": "function",
+          "value": "updateAt"
+        },
+        {
+          "type": "function",
+          "value": "updateIf"
+        },
+        {
+          "type": "function",
+          "value": "updateIfIndex"
+        },
+        {
+          "type": "function",
+          "value": "zip"
+        },
+        {
+          "type": "function",
+          "value": "zip3"
+        }
+      ]
+    }
+  ]
+}
