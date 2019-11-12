@@ -198,20 +198,32 @@ renderNumbers lst limit inter =
 renderDiff : List Int -> Bool -> Html msg
 renderDiff lst inter =
     let
-        lastIndex =
+        highIndex =
             if inter then
-                List.length lst - 3
+                0
 
             else
-                List.length lst - 1
+                2
+
+        firstPart =
+            List.take (List.length lst - 3) lst
+                |> List.map (\v -> span [] [ text (String.fromInt v ++ ", ") ])
+
+        lastThree =
+            List.drop (List.length lst - 3) lst
+                |> List.indexedMap
+                    (\i v ->
+                        span [ classList [ ( "highlightNum", i == highIndex ) ] ]
+                            [ text (String.fromInt v ++ ", ") ]
+                    )
     in
-    lst
-        |> List.indexedMap
-            (\index value ->
-                span [ classList [ ( "highlightNum", index == lastIndex ) ] ]
-                    [ text (String.fromInt value ++ ", ") ]
-            )
+    firstPart
+        ++ lastThree
         |> ul []
+
+
+
+--  << span [ classList [ ( "highlightNum", index == lastIndex ) ] ]
 
 
 gitRepo : String

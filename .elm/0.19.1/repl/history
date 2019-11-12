@@ -1,3 +1,37 @@
+isDuplicate 'b' "abey"
+isDuplicate 'b' "abey"
+isDuplicate 'b' "abey"
+isDuplicate 'b' 'abey'
+              False
+            Nothing ->
+              x == c || isDuplicate c xs
+            Just (x, xs) ->
+          case String.uncons str of
+isDuplicate c str =
+              False
+            Nothing ->
+              x == c || isDuplicate c xs
+            Just (x, xs) ->
+          case String.uncons str of
+isDuplicate     isDuplicate c str =
+isDuplicate : Char -> String -> Bool
+              False
+            Nothing ->
+              x == c || isDuplicate c xs
+            Just (x, xs) ->
+          case String.uncons str of
+isDuplicate     isDuplicate c str =
+isDuplicate : Char -> String -> Bool
+isDuplicate 'e' "recede" False
+isDuplicate 'r' "recede" False
+                  else isDuplicate xs rest False                    
+                  then isDuplicate xs rest True
+              if Char.toLower first == xs && foundOnce
+          Just(first, rest) ->
+              False
+          Nothing -> 
+      case String.uncons word_ of 
+isDuplicate xs word_ foundOnce =
 groupsOf 3 lst |> List.map List.sum
 groupsOf 3 lst |> List.map List.sum
 groupsOf 3 lst

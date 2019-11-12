@@ -5475,33 +5475,54 @@ var $elm$html$Html$span = _VirtualDom_node('span');
 var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $author$project$Main$renderDiff = F2(
 	function (lst, inter) {
-		var lastIndex = inter ? ($elm$core$List$length(lst) - 3) : ($elm$core$List$length(lst) - 1);
+		var len = $elm$core$List$length(lst);
+		var highIndex = inter ? 0 : 2;
+		var lastThree = A2(
+			$elm$core$List$indexedMap,
+			F2(
+				function (i, v) {
+					return A2(
+						$elm$html$Html$span,
+						_List_fromArray(
+							[
+								$elm$html$Html$Attributes$classList(
+								_List_fromArray(
+									[
+										_Utils_Tuple2(
+										'highlightNum',
+										_Utils_eq(i, highIndex))
+									]))
+							]),
+						_List_fromArray(
+							[
+								$elm$html$Html$text(
+								$elm$core$String$fromInt(v) + ', ')
+							]));
+				}),
+			A2(
+				$elm$core$List$drop,
+				$elm$core$List$length(lst) - 3,
+				lst));
+		var firstPart = A2(
+			$elm$core$List$map,
+			function (v) {
+				return A2(
+					$elm$html$Html$span,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text(
+							$elm$core$String$fromInt(v) + ', ')
+						]));
+			},
+			A2(
+				$elm$core$List$take,
+				$elm$core$List$length(lst) - 3,
+				lst));
 		return A2(
 			$elm$html$Html$ul,
 			_List_Nil,
-			A2(
-				$elm$core$List$indexedMap,
-				F2(
-					function (index, value) {
-						return A2(
-							$elm$html$Html$span,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$classList(
-									_List_fromArray(
-										[
-											_Utils_Tuple2(
-											'highlightNum',
-											_Utils_eq(index, lastIndex))
-										]))
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text(
-									$elm$core$String$fromInt(value) + ', ')
-								]));
-					}),
-				lst));
+			_Utils_ap(firstPart, lastThree));
 	});
 var $elm$core$Basics$modBy = _Basics_modBy;
 var $elm$core$Basics$neq = _Utils_notEqual;
