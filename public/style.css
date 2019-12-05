@@ -1,4 +1,7 @@
-body { background: darkgray;}
+body { 
+  /*background: darkgray; */
+  background: #0F4C81;
+}
 
 .numbers { 
   font-size: 2.0em; 
@@ -21,10 +24,15 @@ body { background: darkgray;}
 
 h1 {
   margin-bottom: -13px;
+  color: beige;
+}
+
+h2 {
+  color: orchid;
 }
 
 #footer {
-  color: blue;
+  color: darkgray;
   margin: 10px auto 0;
   font-size: 16px;
   /*text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);*/

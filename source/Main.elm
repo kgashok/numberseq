@@ -150,6 +150,7 @@ view model =
             List.range 1 model.rangeMax
                 |> List.map squareDigit
 
+        -- |> List.reverse
         differenceList =
             if model.inter then
                 calculateDiff numberList
@@ -198,28 +199,25 @@ renderNumbers lst limit inter =
 renderDiff : List Int -> Bool -> Html msg
 renderDiff lst inter =
     let
-        highIndex =
+        offset =
             if inter then
-                0
+                3
 
             else
-                2
+                1
 
-        firstPart =
-            List.take (List.length lst - 3) lst
-                |> List.map (\v -> span [] [ text (String.fromInt v ++ ", ") ])
+        highIndex =
+            List.length lst - offset
 
-        lastThree =
-            List.drop (List.length lst - 3) lst
+        items =
+            lst
                 |> List.indexedMap
                     (\i v ->
                         span [ classList [ ( "highlightNum", i == highIndex ) ] ]
                             [ text (String.fromInt v ++ ", ") ]
                     )
     in
-    firstPart
-        ++ lastThree
-        |> ul []
+    ul [] items
 
 
 
