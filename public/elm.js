@@ -5621,15 +5621,12 @@ var $author$project$Main$squareList = function (rangeMax) {
 		},
 		A2($elm$core$List$range, 1, rangeMax));
 	return A2(
-		$elm$core$String$join,
-		', ',
-		A2(
-			$elm$core$List$indexedMap,
-			F2(
-				function (i, t) {
-					return '(' + ($elm$core$String$fromInt(i) + (': ' + ($elm$core$String$fromInt(t) + ')')));
-				}),
-			A2($elm$core$List$map, $author$project$Main$squareDigit, rangeList)));
+		$elm$core$List$indexedMap,
+		F2(
+			function (i, t) {
+				return '(' + ($elm$core$String$fromInt(i) + (': ' + ($elm$core$String$fromInt(t) + ')')));
+			}),
+		A2($elm$core$List$map, $author$project$Main$squareDigit, rangeList));
 };
 var $author$project$Main$view = function (model) {
 	var _v0 = model.J;
@@ -5684,7 +5681,10 @@ var $author$project$Main$view = function (model) {
 					_List_fromArray(
 						[
 							$elm$html$Html$text(
-							$author$project$Main$squareList(model.g))
+							A2(
+								$elm$core$String$join,
+								', ',
+								$author$project$Main$squareList(model.g)))
 						]))
 				]));
 	} else {

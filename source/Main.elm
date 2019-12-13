@@ -60,10 +60,7 @@ mapAdjacent f list =
     List.map2 f list (withDefault [] (List.tail list))
 
 
-
---squareList : Int -> List ( Int, Int )
-
-
+squareList : Int -> List String
 squareList rangeMax =
     let
         rangeList =
@@ -73,7 +70,6 @@ squareList rangeMax =
     rangeList
         |> List.map squareDigit
         |> List.indexedMap (\i t -> "(" ++ String.fromInt i ++ ": " ++ String.fromInt t ++ ")")
-        |> String.join ", "
 
 
 calculateDiff : List Int -> List Int
@@ -167,22 +163,22 @@ focusIncrementButton =
 view : Model -> Html Msg
 view model =
     -- raw version
-    --div [ classList [ ( "numbers", True ) ] ] [text (squareList 20) ]
+    --div [ classList [ ( "numbers", True ) ] ] [ text (squareList 20 |> String.join ", ") ]
     {--}
     case model.viewMode of
         False ->
-            -- simpler version 
+            -- simpler version
             div []
                 [ button [ onClick DecrementRange ] [ text "Decrease" ]
                 , button [ id "increment", onClick IncrementRange ] [ text "Increase" ]
                 , button [ onClick ToggleView ] [ text "View" ]
                 , hr [] []
                 , span [ classList [ ( "numbers", True ) ] ]
-                    [ text (squareList model.rangeMax) ]
+                    [ text (squareList model.rangeMax |> String.join ", ") ]
                 ]
 
         True ->
-            -- elaborate version 
+            -- elaborate version
             let
                 numberList =
                     List.range 1 model.rangeMax
