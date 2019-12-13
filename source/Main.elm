@@ -58,6 +58,18 @@ mapAdjacent f list =
     List.map2 f list (withDefault [] (List.tail list))
 
 
+squareList : Int -> List ( Int, Int )
+squareList rangeMax =
+    let
+        rangeList =
+            List.range 1 rangeMax
+                |> List.filter (\x -> modBy 3 (x - 1) == 0)
+    in
+    rangeList
+        |> List.map squareDigit
+        |> List.indexedMap Tuple.pair
+
+
 calculateDiff : List Int -> List Int
 calculateDiff =
     mapAdjacent (\x y -> y - x)
@@ -144,7 +156,9 @@ focusIncrementButton =
 
 view : Model -> Html Msg
 view model =
-    -- div [] [ text (squareList 20)]
+    -- simplest version
+    -- div [] [ text (squareList 20 |> Debug.toString) ]
+    {--}
     let
         numberList =
             List.range 1 model.rangeMax
@@ -177,6 +191,7 @@ view model =
         , div [ classList [ ( "numbers", True ) ] ]
             [ renderDiff differenceList model.inter ]
         ]
+--}
 
 
 renderNumbers : List Int -> Int -> Bool -> Html msg
@@ -220,10 +235,6 @@ renderDiff lst inter =
     ul [] items
 
 
-
---  << span [ classList [ ( "highlightNum", index == lastIndex ) ] ]
-
-
 gitRepo : String
 gitRepo =
     "https://github.com/kgashok/numberseq"
@@ -250,18 +261,6 @@ footer =
 
 -- Legacy Code
 {--
-squareList : Int -> List ( Int, Int )
-squareList rangeMax =
-    let
-        rangeList =
-            List.range 1 rangeMax
-                |> List.filter (\x -> modBy 3 (x - 1) == 0)
-    in
-    rangeList
-        |> List.map squareDigit
-        |> List.indexedMap Tuple.pair
-
-
 calculateDiff0 : List ( Int, Int ) -> Bool -> List ( Int, Int )
 calculateDiff0 tlst inter =
     let
