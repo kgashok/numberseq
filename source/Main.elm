@@ -30,7 +30,7 @@ init _ =
       , spoilerVal = 60
       , modeText = "SPOILER ALERT!"
       }
-    , focusSearchBox
+    , focusIncrementButton
     )
 
 
@@ -83,16 +83,16 @@ subscriptions _ =
 
 
 type Msg
-    = Increment
-    | Decrement
-    | ToggleInter
+    = IncrementRange
+    | DecrementRange
+    | ToggleShowInterim
     | NoOp
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Increment ->
+        IncrementRange ->
             ( { model
                 | rangeMax = model.rangeMax + 3
                 , spoilerMode =
@@ -105,7 +105,7 @@ update msg model =
             , Cmd.none
             )
 
-        Decrement ->
+        DecrementRange ->
             ( { model
                 | rangeMax =
                     if model.rangeMax >= 3 then
@@ -117,7 +117,7 @@ update msg model =
             , Cmd.none
             )
 
-        ToggleInter ->
+        ToggleShowInterim ->
             let
                 mtext =
                     if model.modeText == "hide hints" then
@@ -130,15 +130,15 @@ update msg model =
                 | inter = not model.inter
                 , modeText = mtext
               }
-            , focusSearchBox
+            , focusIncrementButton
             )
 
         NoOp ->
             ( model, Cmd.none )
 
 
-focusSearchBox : Cmd Msg
-focusSearchBox =
+focusIncrementButton : Cmd Msg
+focusIncrementButton =
     Task.attempt (\_ -> NoOp) (Dom.focus "increment")
 
 
@@ -162,16 +162,16 @@ view model =
         [ div [] [ h1 [] [ text "What's next and Why?" ] ]
         , footer
         , hr [] []
-        , button [ onClick Decrement ] [ text "Press to decrease" ]
+        , button [ onClick DecrementRange ] [ text "Press to decrease" ]
 
         -- , pre [] [ text <| String.fromInt model.rangeMax ]
-        , button [ id "increment", onClick Increment ] [ text "Press to increase" ]
+        , button [ id "increment", onClick IncrementRange ] [ text "Press to increase" ]
         , h2 [] [ text "The sequence" ]
         , div [ classList [ ( "numbers", True ) ] ]
             [ renderNumbers numberList model.limit model.inter ]
 
         -- , hr [] []
-        , button [ onClick ToggleInter, disabled model.spoilerMode ]
+        , button [ onClick ToggleShowInterim, disabled model.spoilerMode ]
             [ text model.modeText ]
         , h2 [] [ text "The difference" ]
         , div [ classList [ ( "numbers", True ) ] ]
