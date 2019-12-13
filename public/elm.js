@@ -770,11 +770,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.R.D === region.W.D)
+	if (region.S.D === region.X.D)
 	{
-		return 'on line ' + region.R.D;
+		return 'on line ' + region.S.D;
 	}
-	return 'on lines ' + region.R.D + ' through ' + region.W.D;
+	return 'on lines ' + region.S.D + ' through ' + region.X.D;
 }
 
 
@@ -1841,9 +1841,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.ax,
-		impl.aF,
-		impl.aD,
+		impl.ay,
+		impl.aG,
+		impl.aE,
 		function() { return function() {} }
 	);
 });
@@ -2644,8 +2644,8 @@ var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
 		l: func(record.l),
-		S: record.S,
-		O: record.O
+		T: record.T,
+		P: record.P
 	}
 });
 
@@ -2914,10 +2914,10 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 
 		var value = result.a;
 		var message = !tag ? value : tag < 3 ? value.a : value.l;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.S;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.T;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.O) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.P) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3863,11 +3863,11 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.ax,
-		impl.aF,
-		impl.aD,
+		impl.ay,
+		impl.aG,
+		impl.aE,
 		function(sendToApp, initialModel) {
-			var view = impl.aG;
+			var view = impl.aH;
 			/**/
 			var domNode = args['node'];
 			//*/
@@ -3899,12 +3899,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.ax,
-		impl.aF,
-		impl.aD,
+		impl.ay,
+		impl.aG,
+		impl.aE,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.P && impl.P(sendToApp)
-			var view = impl.aG;
+			var divertHrefToApp = impl.Q && impl.Q(sendToApp)
+			var view = impl.aH;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
 			var currNode = _VirtualDom_virtualize(bodyNode);
@@ -3912,12 +3912,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.ar);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.as);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.aE) && (_VirtualDom_doc.title = title = doc.aE);
+				(title !== doc.aF) && (_VirtualDom_doc.title = title = doc.aF);
 			});
 		}
 	);
@@ -3968,12 +3968,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.az;
-	var onUrlRequest = impl.aA;
+	var onUrlChange = impl.aA;
+	var onUrlRequest = impl.aB;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		P: function(sendToApp)
+		Q: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -3989,9 +3989,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.ah === next.ah
-							&& curr.Z === next.Z
-							&& curr.ae.a === next.ae.a
+							&& curr.ai === next.ai
+							&& curr._ === next._
+							&& curr.af.a === next.af.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -3999,13 +3999,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		ax: function(flags)
+		ay: function(flags)
 		{
-			return A3(impl.ax, flags, _Browser_getUrl(), key);
+			return A3(impl.ay, flags, _Browser_getUrl(), key);
 		},
+		aH: impl.aH,
 		aG: impl.aG,
-		aF: impl.aF,
-		aD: impl.aD
+		aE: impl.aE
 	});
 }
 
@@ -4071,17 +4071,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { av: 'hidden', C: 'visibilitychange' }
+		? { aw: 'hidden', C: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { av: 'mozHidden', C: 'mozvisibilitychange' }
+		? { aw: 'mozHidden', C: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { av: 'msHidden', C: 'msvisibilitychange' }
+		? { aw: 'msHidden', C: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { av: 'webkitHidden', C: 'webkitvisibilitychange' }
-		: { av: 'hidden', C: 'visibilitychange' };
+		? { aw: 'webkitHidden', C: 'webkitvisibilitychange' }
+		: { aw: 'hidden', C: 'visibilitychange' };
 }
 
 
@@ -4162,10 +4162,10 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		al: _Browser_getScene(),
-		ao: {
-			J: _Browser_window.pageXOffset,
-			K: _Browser_window.pageYOffset,
+		am: _Browser_getScene(),
+		ap: {
+			K: _Browser_window.pageXOffset,
+			L: _Browser_window.pageYOffset,
 			A: _Browser_doc.documentElement.clientWidth,
 			u: _Browser_doc.documentElement.clientHeight
 		}
@@ -4201,13 +4201,13 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			al: {
+			am: {
 				A: node.scrollWidth,
 				u: node.scrollHeight
 			},
-			ao: {
-				J: node.scrollLeft,
-				K: node.scrollTop,
+			ap: {
+				K: node.scrollLeft,
+				L: node.scrollTop,
 				A: node.clientWidth,
 				u: node.clientHeight
 			}
@@ -4239,16 +4239,16 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			al: _Browser_getScene(),
-			ao: {
-				J: x,
-				K: y,
+			am: _Browser_getScene(),
+			ap: {
+				K: x,
+				L: y,
 				A: _Browser_doc.documentElement.clientWidth,
 				u: _Browser_doc.documentElement.clientHeight
 			},
-			at: {
-				J: x + rect.left,
-				K: y + rect.top,
+			au: {
+				K: x + rect.left,
+				L: y + rect.top,
 				A: rect.width,
 				u: rect.height
 			}
@@ -4789,7 +4789,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {Y: fragment, Z: host, ac: path, ae: port_, ah: protocol, ai: query};
+		return {Z: fragment, _: host, ad: path, af: port_, ai: protocol, aj: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5068,7 +5068,7 @@ var $elm$core$Task$perform = F2(
 			A2($elm$core$Task$map, toMessage, task));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $author$project$Main$NoOp = 3;
+var $author$project$Main$NoOp = 4;
 var $elm$core$Basics$composeL = F3(
 	function (g, f, x) {
 		return g(
@@ -5096,12 +5096,12 @@ var $elm$browser$Browser$Dom$focus = _Browser_call('focus');
 var $author$project$Main$focusIncrementButton = A2(
 	$elm$core$Task$attempt,
 	function (_v0) {
-		return 3;
+		return 4;
 	},
 	$elm$browser$Browser$Dom$focus('increment'));
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
-		{p: false, L: 18, E: 'SPOILER ALERT!', h: 21, y: true, Q: 60},
+		{p: false, M: 18, E: 'SPOILER ALERT!', g: 21, y: true, R: 60, J: false},
 		$author$project$Main$focusIncrementButton);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5121,8 +5121,8 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{
-							h: model.h + 3,
-							y: (model.y && (_Utils_cmp(model.h, model.Q) > 0)) ? false : model.y
+							g: model.g + 3,
+							y: (model.y && (_Utils_cmp(model.g, model.R) > 0)) ? false : model.y
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 1:
@@ -5130,7 +5130,7 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{
-							h: (model.h >= 3) ? (model.h - 3) : model.h
+							g: (model.g >= 3) ? (model.g - 3) : model.g
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 2:
@@ -5140,6 +5140,12 @@ var $author$project$Main$update = F2(
 						model,
 						{p: !model.p, E: mtext}),
 					$author$project$Main$focusIncrementButton);
+			case 3:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{J: !model.J}),
+					$author$project$Main$focusIncrementButton);
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
@@ -5147,6 +5153,7 @@ var $author$project$Main$update = F2(
 var $author$project$Main$DecrementRange = 1;
 var $author$project$Main$IncrementRange = 0;
 var $author$project$Main$ToggleShowInterim = 2;
+var $author$project$Main$ToggleView = 3;
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$core$List$tail = function (list) {
 	if (list.b) {
@@ -5606,109 +5613,194 @@ var $author$project$Main$squareDigit = A2(
 					$elm$core$Basics$composeR,
 					$elm$core$String$toInt,
 					$elm$core$Maybe$withDefault(0))))));
-var $author$project$Main$view = function (model) {
-	var numberList = A2(
-		$elm$core$List$map,
-		$author$project$Main$squareDigit,
-		A2($elm$core$List$range, 1, model.h));
-	var differenceList = model.p ? $author$project$Main$calculateDiff(numberList) : $author$project$Main$calculateDiff3(numberList);
+var $author$project$Main$squareList = function (rangeMax) {
+	var rangeList = A2(
+		$elm$core$List$filter,
+		function (x) {
+			return !A2($elm$core$Basics$modBy, 3, x - 1);
+		},
+		A2($elm$core$List$range, 1, rangeMax));
 	return A2(
-		$elm$html$Html$div,
-		_List_Nil,
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h1,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('What\'s next and Why?')
-							]))
-					])),
-				$author$project$Main$footer,
-				A2($elm$html$Html$hr, _List_Nil, _List_Nil),
-				A2(
-				$elm$html$Html$button,
-				_List_fromArray(
-					[
-						$elm$html$Html$Events$onClick(1)
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text('Decrease')
-					])),
-				A2(
-				$elm$html$Html$button,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$id('increment'),
-						$elm$html$Html$Events$onClick(0)
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text('Increase')
-					])),
-				A2(
-				$elm$html$Html$h2,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('The sequence')
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$classList(
-						_List_fromArray(
-							[
-								_Utils_Tuple2('numbers', true)
-							]))
-					]),
-				_List_fromArray(
-					[
-						A3($author$project$Main$renderNumbers, numberList, model.L, model.p)
-					])),
-				A2(
-				$elm$html$Html$button,
-				_List_fromArray(
-					[
-						$elm$html$Html$Events$onClick(2),
-						$elm$html$Html$Attributes$disabled(model.y)
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text(model.E)
-					])),
-				A2(
-				$elm$html$Html$h2,
-				_List_Nil,
-				_List_fromArray(
-					[
-						$elm$html$Html$text('The difference')
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$classList(
-						_List_fromArray(
-							[
-								_Utils_Tuple2('numbers', true)
-							]))
-					]),
-				_List_fromArray(
-					[
-						A2($author$project$Main$renderDiff, differenceList, model.p)
-					]))
-			]));
+		$elm$core$String$join,
+		', ',
+		A2(
+			$elm$core$List$indexedMap,
+			F2(
+				function (i, t) {
+					return '(' + ($elm$core$String$fromInt(i) + (': ' + ($elm$core$String$fromInt(t) + ')')));
+				}),
+			A2($elm$core$List$map, $author$project$Main$squareDigit, rangeList)));
+};
+var $author$project$Main$view = function (model) {
+	var _v0 = model.J;
+	if (!_v0) {
+		return A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Events$onClick(1)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Decrease')
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$id('increment'),
+							$elm$html$Html$Events$onClick(0)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Increase')
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Events$onClick(3)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('View')
+						])),
+					A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+					A2(
+					$elm$html$Html$span,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$classList(
+							_List_fromArray(
+								[
+									_Utils_Tuple2('numbers', true)
+								]))
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(
+							$author$project$Main$squareList(model.g))
+						]))
+				]));
+	} else {
+		var numberList = A2(
+			$elm$core$List$map,
+			$author$project$Main$squareDigit,
+			A2($elm$core$List$range, 1, model.g));
+		var differenceList = model.p ? $author$project$Main$calculateDiff(numberList) : $author$project$Main$calculateDiff3(numberList);
+		return A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$h1,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text('What\'s next and Why?')
+								]))
+						])),
+					$author$project$Main$footer,
+					A2($elm$html$Html$hr, _List_Nil, _List_Nil),
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Events$onClick(1)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Decrease')
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$id('increment'),
+							$elm$html$Html$Events$onClick(0)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Increase')
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Events$onClick(3)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('View')
+						])),
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('The sequence')
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$classList(
+							_List_fromArray(
+								[
+									_Utils_Tuple2('numbers', true)
+								]))
+						]),
+					_List_fromArray(
+						[
+							A3($author$project$Main$renderNumbers, numberList, model.M, model.p)
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Events$onClick(2),
+							$elm$html$Html$Attributes$disabled(model.y)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(model.E)
+						])),
+					A2(
+					$elm$html$Html$h2,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text('The difference')
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$classList(
+							_List_fromArray(
+								[
+									_Utils_Tuple2('numbers', true)
+								]))
+						]),
+					_List_fromArray(
+						[
+							A2($author$project$Main$renderDiff, differenceList, model.p)
+						]))
+				]));
+	}
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
-	{ax: $author$project$Main$init, aD: $author$project$Main$subscriptions, aF: $author$project$Main$update, aG: $author$project$Main$view});
+	{ay: $author$project$Main$init, aE: $author$project$Main$subscriptions, aG: $author$project$Main$update, aH: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(0))(0)}});}(this));

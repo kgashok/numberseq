@@ -18,6 +18,7 @@ type alias Model =
     , spoilerMode : Bool
     , spoilerVal : Int -- the spoiler gets enabled when rangeMax > spoilerVal
     , modeText : String -- button text for the spoiler
+    , viewMode : Bool
     }
 
 
@@ -29,6 +30,7 @@ init _ =
       , spoilerMode = True
       , spoilerVal = 60
       , modeText = "SPOILER ALERT!"
+      , viewMode = False
       }
     , focusIncrementButton
     )
@@ -58,7 +60,10 @@ mapAdjacent f list =
     List.map2 f list (withDefault [] (List.tail list))
 
 
-squareList : Int -> List ( Int, Int )
+
+--squareList : Int -> List ( Int, Int )
+
+
 squareList rangeMax =
     let
         rangeList =
@@ -67,7 +72,8 @@ squareList rangeMax =
     in
     rangeList
         |> List.map squareDigit
-        |> List.indexedMap Tuple.pair
+        |> List.indexedMap (\i t -> "(" ++ String.fromInt i ++ ": " ++ String.fromInt t ++ ")")
+        |> String.join ", "
 
 
 calculateDiff : List Int -> List Int
@@ -98,6 +104,7 @@ type Msg
     = IncrementRange
     | DecrementRange
     | ToggleShowInterim
+    | ToggleView
     | NoOp
 
 
@@ -145,6 +152,9 @@ update msg model =
             , focusIncrementButton
             )
 
+        ToggleView ->
+            ( { model | viewMode = not model.viewMode }, focusIncrementButton )
+
         NoOp ->
             ( model, Cmd.none )
 
@@ -156,41 +166,56 @@ focusIncrementButton =
 
 view : Model -> Html Msg
 view model =
-    -- simplest version
-    -- div [] [ text (squareList 20 |> Debug.toString) ]
+    -- raw version
+    --div [ classList [ ( "numbers", True ) ] ] [text (squareList 20) ]
     {--}
-    let
-        numberList =
-            List.range 1 model.rangeMax
-                |> List.map squareDigit
+    case model.viewMode of
+        False ->
+            -- simpler version 
+            div []
+                [ button [ onClick DecrementRange ] [ text "Decrease" ]
+                , button [ id "increment", onClick IncrementRange ] [ text "Increase" ]
+                , button [ onClick ToggleView ] [ text "View" ]
+                , hr [] []
+                , span [ classList [ ( "numbers", True ) ] ]
+                    [ text (squareList model.rangeMax) ]
+                ]
 
-        -- |> List.reverse
-        differenceList =
-            if model.inter then
-                calculateDiff numberList
+        True ->
+            -- elaborate version 
+            let
+                numberList =
+                    List.range 1 model.rangeMax
+                        |> List.map squareDigit
 
-            else
-                calculateDiff3 numberList
-    in
-    div []
-        [ div [] [ h1 [] [ text "What's next and Why?" ] ]
-        , footer
-        , hr [] []
-        , button [ onClick DecrementRange ] [ text "Decrease" ]
+                -- |> List.reverse
+                differenceList =
+                    if model.inter then
+                        calculateDiff numberList
 
-        -- , pre [] [ text <| String.fromInt model.rangeMax ]
-        , button [ id "increment", onClick IncrementRange ] [ text "Increase" ]
-        , h2 [] [ text "The sequence" ]
-        , div [ classList [ ( "numbers", True ) ] ]
-            [ renderNumbers numberList model.limit model.inter ]
+                    else
+                        calculateDiff3 numberList
+            in
+            div []
+                [ div [] [ h1 [] [ text "What's next and Why?" ] ]
+                , footer
+                , hr [] []
+                , button [ onClick DecrementRange ] [ text "Decrease" ]
 
-        -- , hr [] []
-        , button [ onClick ToggleShowInterim, disabled model.spoilerMode ]
-            [ text model.modeText ]
-        , h2 [] [ text "The difference" ]
-        , div [ classList [ ( "numbers", True ) ] ]
-            [ renderDiff differenceList model.inter ]
-        ]
+                -- , pre [] [ text <| String.fromInt model.rangeMax ]
+                , button [ id "increment", onClick IncrementRange ] [ text "Increase" ]
+                , button [ onClick ToggleView ] [ text "View" ]
+                , h2 [] [ text "The sequence" ]
+                , div [ classList [ ( "numbers", True ) ] ]
+                    [ renderNumbers numberList model.limit model.inter ]
+
+                -- , hr [] []
+                , button [ onClick ToggleShowInterim, disabled model.spoilerMode ]
+                    [ text model.modeText ]
+                , h2 [] [ text "The difference" ]
+                , div [ classList [ ( "numbers", True ) ] ]
+                    [ renderDiff differenceList model.inter ]
+                ]
 --}
 
 
