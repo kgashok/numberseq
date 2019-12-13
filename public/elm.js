@@ -5144,7 +5144,7 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{J: !model.J}),
+						{g: 21, J: !model.J}),
 					$author$project$Main$focusIncrementButton);
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -5669,7 +5669,7 @@ var $author$project$Main$view = function (model) {
 						])),
 					A2($elm$html$Html$hr, _List_Nil, _List_Nil),
 					A2(
-					$elm$html$Html$span,
+					$elm$html$Html$div,
 					_List_fromArray(
 						[
 							$elm$html$Html$Attributes$classList(

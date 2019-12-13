@@ -149,7 +149,12 @@ update msg model =
             )
 
         ToggleView ->
-            ( { model | viewMode = not model.viewMode }, focusIncrementButton )
+            ( { model
+                | viewMode = not model.viewMode
+                , rangeMax = 21
+              }
+            , focusIncrementButton
+            )
 
         NoOp ->
             ( model, Cmd.none )
@@ -173,7 +178,7 @@ view model =
                 , button [ id "increment", onClick IncrementRange ] [ text "Increase" ]
                 , button [ onClick ToggleView ] [ text "View" ]
                 , hr [] []
-                , span [ classList [ ( "numbers", True ) ] ]
+                , div [ classList [ ( "numbers", True ) ] ]
                     [ text (squareList model.rangeMax |> String.join ", ") ]
                 ]
 
