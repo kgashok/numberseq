@@ -162,10 +162,10 @@ view model =
         [ div [] [ h1 [] [ text "What's next and Why?" ] ]
         , footer
         , hr [] []
-        , button [ onClick DecrementRange ] [ text "Press to decrease" ]
+        , button [ onClick DecrementRange ] [ text "Decrease" ]
 
         -- , pre [] [ text <| String.fromInt model.rangeMax ]
-        , button [ id "increment", onClick IncrementRange ] [ text "Press to increase" ]
+        , button [ id "increment", onClick IncrementRange ] [ text "Increase" ]
         , h2 [] [ text "The sequence" ]
         , div [ classList [ ( "numbers", True ) ] ]
             [ renderNumbers numberList model.limit model.inter ]

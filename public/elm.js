@@ -5093,7 +5093,7 @@ var $elm$core$Task$attempt = F2(
 					task)));
 	});
 var $elm$browser$Browser$Dom$focus = _Browser_call('focus');
-var $author$project$Main$focusSearchBox = A2(
+var $author$project$Main$focusIncrementButton = A2(
 	$elm$core$Task$attempt,
 	function (_v0) {
 		return 3;
@@ -5102,7 +5102,7 @@ var $author$project$Main$focusSearchBox = A2(
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2(
 		{p: false, L: 18, E: 'SPOILER ALERT!', h: 21, y: true, Q: 60},
-		$author$project$Main$focusSearchBox);
+		$author$project$Main$focusIncrementButton);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
@@ -5139,14 +5139,14 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{p: !model.p, E: mtext}),
-					$author$project$Main$focusSearchBox);
+					$author$project$Main$focusIncrementButton);
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Main$Decrement = 1;
-var $author$project$Main$Increment = 0;
-var $author$project$Main$ToggleInter = 2;
+var $author$project$Main$DecrementRange = 1;
+var $author$project$Main$IncrementRange = 0;
+var $author$project$Main$ToggleShowInterim = 2;
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$core$List$tail = function (list) {
 	if (list.b) {
@@ -5640,7 +5640,7 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text('Press to decrease')
+						$elm$html$Html$text('Decrease')
 					])),
 				A2(
 				$elm$html$Html$button,
@@ -5651,7 +5651,7 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						$elm$html$Html$text('Press to increase')
+						$elm$html$Html$text('Increase')
 					])),
 				A2(
 				$elm$html$Html$h2,
