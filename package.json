@@ -17,7 +17,7 @@
     "uglify-js": "^3.6.8"
   },
   "engines": {
-    "node": "8.x"
+    "node": "20.x"
   },
   "repository": {
     "url": "https://glitch.com/edit/#!/welcome-project"
