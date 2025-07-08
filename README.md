@@ -2,6 +2,8 @@
 
 This serves as a helper app for presenting the challenge.
 
+July 2025 
+ - Resurrected the App from Glitch to replit 
 
 <!--
 Simple Elm Sample App
