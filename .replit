@@ -6,12 +6,22 @@ channel = "stable-24_05"
 packages = ["elmPackages.elm"]
 
 [deployment]
-run = ["sh", "-c", "npm run start"]
+deploymentTarget = "cloudrun"
+build = ["sh", "-c", "./optimize.sh"]
+run = ["sh", "-c", "node server.js"]
 
 [[ports]]
 localPort = 8000
 externalPort = 80
 
 [[ports]]
+localPort = 40191
+externalPort = 3001
+
+[[ports]]
 localPort = 42795
 externalPort = 3000
+
+[[ports]]
+localPort = 46075
+externalPort = 3002
