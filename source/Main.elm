@@ -22,6 +22,26 @@ type alias Model =
     }
 
 
+{-| SPOILER FUNCTIONALITY EXPLANATION:
+
+The SPOILER ALERT button is initially disabled and serves as a hint system for the sequence.
+
+WHY IT'S DISABLED:
+- The button is controlled by `spoilerMode` which starts as `True` (disabled)
+- This prevents users from seeing hints too early in the sequence exploration
+
+WHEN IT GETS ENABLED:
+- The button becomes enabled when `rangeMax` exceeds `spoilerVal` (60)
+- Since `rangeMax` starts at 21 and increases by 3 with each "Increase" click
+- Users need to click "Increase" 14 times to reach 63 (21 + 14×3 = 63 > 60)
+- Once enabled, the button toggles between "show hints" and "hide hints"
+- It controls whether intermediate values in the sequence are displayed
+
+The spoiler threshold ensures users explore the sequence pattern themselves
+before being able to access the hint system.
+-}
+
+
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( { rangeMax = 21
